@@ -1,0 +1,55 @@
+### Endpoint de teste
+GET http://localhost:3003/ping
+
+### Endpoint de cadastro de usuário
+POST http://localhost:3003/users/signup
+Content-Type: application/json
+
+{
+    "name": "Nome do usuário",
+    "email": "jonatas@gmail.com",
+    "password": "123456"
+}
+
+### Endpoint de login
+POST http://localhost:3003/users/login
+Content-Type: application/json
+
+{
+    "email": "astrodev@gmail.com",
+    "password": "bananinha"
+}
+
+
+### Endpoint de criação de show
+POST http://localhost:3003/shows/create
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY2NDQ5ODE5MywiZXhwIjoxNjY0NTg0NTkzfQ.sKUEm2NZENJNbHsrQctQr2lh9eZzWglyKqR5v8NwDK8
+
+{
+    "band": "Nome da banda",
+    "startAt": "08/12/2022"
+}
+
+
+### Endpoint de pegar todos os shows
+GET http://localhost:3003/shows
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY2NDQ5ODE5MywiZXhwIjoxNjY0NTg0NTkzfQ.sKUEm2NZENJNbHsrQctQr2lh9eZzWglyKqR5v8NwDK8
+
+### Endpoint de comprar ingresso
+POST http://localhost:3003/shows/buyTicket
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY2NDQ5ODE5MywiZXhwIjoxNjY0NTg0NTkzfQ.sKUEm2NZENJNbHsrQctQr2lh9eZzWglyKqR5v8NwDK8
+
+{
+    "showId": "201"
+}
+
+### Endpoint de deletar reserva
+DELETE http://localhost:3003/shows/cancelBuyTicket
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY2NDQ5ODE5MywiZXhwIjoxNjY0NTg0NTkzfQ.sKUEm2NZENJNbHsrQctQr2lh9eZzWglyKqR5v8NwDK8
+
+{
+    "showId": "201"
+}
