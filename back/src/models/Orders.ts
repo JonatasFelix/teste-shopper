@@ -3,11 +3,15 @@ export enum OrderStatus {
     COMPLETED = 'completed'
 }
 
-export interface OrderItem {
+export interface IProduct {
     id: string,
-    order_id: string,
-    product_id: string,
-    qty: number
+    quantity: number
+}
+
+export interface IInputOrder {
+    userName: string,
+    products: IProduct[],
+    appointmentDate: Date
 }
 
 

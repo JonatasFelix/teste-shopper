@@ -14,4 +14,4 @@ const productsController = new ProductsController(
 
 
 productsRouter.get("/", productsController.getProducts)
-productsRouter.get("/:id", productsController.getProductById)
+productsRouter.get("/:productId", productsController.getProductById)

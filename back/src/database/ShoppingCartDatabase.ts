@@ -23,7 +23,7 @@ export class ShoppingCartDatabase extends BaseDatabase {
         const product = await BaseDatabase.connection
             .select("*")
             .from(ShoppingCartDatabase.TABLE_SHOPPING_CART)
-            .where({ id_product: data.id_product })
+            .where(data)
 
         return product
     }
@@ -32,7 +32,7 @@ export class ShoppingCartDatabase extends BaseDatabase {
         await BaseDatabase.connection
             .delete()
             .from(ShoppingCartDatabase.TABLE_SHOPPING_CART)
-            .where({ id_product: data.id_product })
+            .where(data)
     }
 
     public async updateProduct(data: IUpdateProductQuantityDTO): Promise<void> {
@@ -44,7 +44,7 @@ export class ShoppingCartDatabase extends BaseDatabase {
 
     public async insertProduct(data: IAddProductCartDTO): Promise<void> {
         await BaseDatabase.connection
-            .insert({ id_product: data.id_product, quantity: data.quantity })
+            .insert(data)
             .into(ShoppingCartDatabase.TABLE_SHOPPING_CART)
     }
 

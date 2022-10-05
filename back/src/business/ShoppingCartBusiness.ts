@@ -51,6 +51,10 @@ export class ShoppingCartBusiness {
             throw new BadRequest("quantity must be a number")
         }
 
+        if(quantity < 1) {
+            throw new BadRequest("quantity must be greater than 0, or remove the product")
+        }
+
         const inputSelectProduct: ISelectPrductDTO = { id: productId }
         const prdouctExists = await this.productsDatabase.selectProductById(inputSelectProduct)
 

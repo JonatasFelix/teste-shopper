@@ -1,7 +1,7 @@
 import { OrderItem, Order } from "../models/Orders"
 import { BaseDatabase } from "./BaseDatabase"
 
-export class ProductsDatabase extends BaseDatabase {
+export class OrdersDatabase extends BaseDatabase {
     public static TABLE_ORDERS = "orders"
     public static TABLE_ORDER_ITEMS = "order_items"
 
@@ -15,13 +15,13 @@ export class ProductsDatabase extends BaseDatabase {
                 order_date: order.getOrderDate(),
                 appointment_date: order.getAppointmentDate()
             })
-            .into(ProductsDatabase.TABLE_ORDERS)
+            .into(OrdersDatabase.TABLE_ORDERS)
     }
 
     public async createOrderItem(orderItem: OrderItem): Promise<void> {
         await BaseDatabase.connection
             .insert(orderItem)
-            .into(ProductsDatabase.TABLE_ORDER_ITEMS)
+            .into(OrdersDatabase.TABLE_ORDER_ITEMS)
     }
  
 }
