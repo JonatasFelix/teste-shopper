@@ -1,4 +1,4 @@
-import { IInputProducList, ISearchProducByName, ISelectPrductDTO } from "../models/Products"
+import { IInputChangeProductQuantityDTO, IInputProducList, ISearchProducByName, ISelectPrductDTO } from "../models/Products"
 import { BaseDatabase } from "./BaseDatabase"
 
 export class ProductsDatabase extends BaseDatabase {
@@ -51,5 +51,12 @@ export class ProductsDatabase extends BaseDatabase {
             .where({ id: input.id })
         
         return product
+    }
+
+    public updateProductQuantity = async(input: IInputChangeProductQuantityDTO): Promise<any> => {
+        await BaseDatabase.connection
+            .update({ qty_stock: input.quantity })
+            .from(ProductsDatabase.TABLE_PRODUCTS)
+            .where({ id: input.id })
     }
 }

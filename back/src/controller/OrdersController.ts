@@ -8,7 +8,7 @@ export class OrdersController {
         private ordersBusiness: OrdersBusiness
     ) { }
 
-    public async createOrder(req: Request, res: Response) {
+    public createOrder = async (req: Request, res: Response) => {
         try {
             const input: IInputOrder = {
                 userName: req.body.userName,

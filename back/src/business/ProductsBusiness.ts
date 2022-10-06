@@ -70,7 +70,7 @@ export class ProductsBusiness {
             throw new NotFound("Product not found")
         }
 
-        const result = Product.toProductModel(product[0])
+        const result: Product = Product.toProductModel(product[0])
 
         return result
 

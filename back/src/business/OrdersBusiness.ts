@@ -1,8 +1,21 @@
+import { OrdersDatabase } from "../database/OrdersDatabase";
+import { ProductsDatabase } from "../database/ProductsDatabase";
 import BadRequest from "../errors/BadRequest";
 import MissingParameters from "../errors/MissingParameters";
-import { IInputOrder, IProduct } from "../models/Orders";
+import NotFound from "../errors/NotFound";
+import { IInputOrder, IInputOrderDTO, IProduct, OrderStatus } from "../models/Orders";
+import { Product } from "../models/Products";
+import { DateConversion } from "../services/DateConversion";
+import { IdGenerator } from "../services/IdGenerator";
 
 export class OrdersBusiness {
+
+    constructor(
+        private ordersDatabase: OrdersDatabase,
+        private productsDatabase: ProductsDatabase,
+        private idGenerator: IdGenerator,
+        private dateConversion: DateConversion
+    ) { }
 
     public createOrder = async(input: IInputOrder): Promise<any> => {
             const { userName, products, appointmentDate } = input
@@ -23,7 +36,19 @@ export class OrdersBusiness {
                 throw new BadRequest("appointmentDate must be a string")
             }
 
-            const productsList = products.map((product: any): void | IProduct=> {
+            if (!this.dateConversion.checkDateValidity(appointmentDate)) {
+                throw new BadRequest("Invalid date")
+            }
+
+            const newAppointmentDate = new Date(appointmentDate)
+
+            if(newAppointmentDate <= new Date()) {
+                throw new BadRequest("appointmentDate must be a future date")
+            }
+
+            let total:number = 0
+
+            const productsListVerify = products.map( async (product: any): Promise<void>=> {
                 if (typeof product.id !== "number") {
                     throw new BadRequest("id must be a number")
                 }
@@ -32,14 +57,50 @@ export class OrdersBusiness {
                     throw new BadRequest("quantity must be a number")
                 }
 
-                return {
-                    id: product.id as number,
-                    quantity: product.quantity as number
+                if(product.quantity <= 0) {
+                    throw new BadRequest("quantity must be greater than 0")
                 }
+
+                const verifyProduct = await this.productsDatabase.selectProductById({id: product.id})
+
+                if(!verifyProduct.length) {
+                    throw new NotFound(`Product with id ${product.id} not found`)
+                }
+
+                if (verifyProduct[0].qty_stock === 0) {
+                    throw new BadRequest(`Product with id ${product.id} is out of stock`)
+                }
+
+                if (verifyProduct[0].qty_stock < product.quantity) {
+                    throw new BadRequest(`Product with id ${product.id} has only ${verifyProduct[0].qty_stock} in stock`)
+                }
+
+                total += verifyProduct[0].price * product.quantity
             })
 
 
+            await Promise.all(productsListVerify)
 
+            const id: string = this.idGenerator.generate()
+
+            const order : IInputOrderDTO = {
+                id: id,
+                user_name: userName,
+                total: total,
+                status: OrderStatus.PENDING,
+                order_date: new Date(),
+                appointment_date: this.dateConversion.toSqlDate(newAppointmentDate)
+            }
+            
+            await this.ordersDatabase.insertOrder(order)
+
+            const productsList = products.map( async (product: any): Promise<void> => {
+                const result = await this.productsDatabase.selectProductById({id: product.id})
+                await this.productsDatabase.updateProductQuantity({id: result[0].id, quantity: result[0].qty_stock - product.quantity})
+                await this.ordersDatabase.insertProductOrder({order_id: id, product_id: result[0].id, qty: product.quantity})
+            })
+
+            await Promise.all(productsList)
 
     }
 }

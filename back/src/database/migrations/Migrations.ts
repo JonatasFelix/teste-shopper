@@ -41,7 +41,7 @@ class Migrations extends BaseDatabase {
         );
 
         CREATE TABLE IF NOT EXISTS orders(
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            id VARCHAR(255) PRIMARY KEY NOT NULL,
             user_name VARCHAR(255) NOT NULL,
             total FLOAT NOT NULL,
             status ENUM("pending", "completed") DEFAULT "pending" NOT NULL,
@@ -50,8 +50,8 @@ class Migrations extends BaseDatabase {
         );
 
         CREATE TABLE IF NOT EXISTS order_items(
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
-            order_id INTEGER NOT NULL,
+            id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+            order_id VARCHAR(255) NOT NULL,
             product_id INTEGER NOT NULL,
             qty INTEGER NOT NULL,
             FOREIGN KEY (order_id) REFERENCES orders(id),

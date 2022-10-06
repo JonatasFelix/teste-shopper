@@ -1,5 +1,5 @@
 export enum OrderStatus {
-    PEDNING = 'pending',
+    PENDING = 'pending',
     COMPLETED = 'completed'
 }
 
@@ -8,12 +8,27 @@ export interface IProduct {
     quantity: number
 }
 
+export interface IOrderInputDTO {
+    order_id: string,
+    product_id: number,
+    qty: number,
+}
+
 export interface IInputOrder {
     userName: string,
     products: IProduct[],
     appointmentDate: Date
 }
 
+
+export interface IInputOrderDTO {
+    id: string,
+    user_name: string,
+    total: number,
+    status: OrderStatus,
+    order_date: Date,
+    appointment_date: string
+}
 
 export class Order {
     constructor(

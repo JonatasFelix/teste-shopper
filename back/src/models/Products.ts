@@ -35,6 +35,11 @@ export interface ISearchProducByName {
     sort?: Sort
 }
 
+export interface IInputChangeProductQuantityDTO {
+    id: number,
+    quantity: number
+}
+
 
 export class Product {
     constructor(
