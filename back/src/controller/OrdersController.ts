@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import { OrdersBusiness } from "../business/OrdersBusiness"
 import { IInputOrder } from "../models/Orders"
 
 
@@ -12,7 +13,7 @@ export class OrdersController {
             const input: IInputOrder = {
                 userName: req.body.userName,
                 products: req.body.products,
-                appointmentDate: req.body.appointmentDate
+                appointmentDate: req.body.appointmentDate as Date
             }
 
             const order = await this.ordersBusiness.createOrder(input)
@@ -23,6 +24,7 @@ export class OrdersController {
             res.status(error.statusCode || 500).send({ error: error.message || error.sqlMessage })
         }
 
+    }
 
 
 

@@ -1,4 +1,4 @@
-import { OrderItem, Order } from "../models/Orders"
+import { Order } from "../models/Orders"
 import { BaseDatabase } from "./BaseDatabase"
 
 export class OrdersDatabase extends BaseDatabase {
@@ -18,10 +18,10 @@ export class OrdersDatabase extends BaseDatabase {
             .into(OrdersDatabase.TABLE_ORDERS)
     }
 
-    public async createOrderItem(orderItem: OrderItem): Promise<void> {
-        await BaseDatabase.connection
-            .insert(orderItem)
-            .into(OrdersDatabase.TABLE_ORDER_ITEMS)
-    }
+    // public async createOrderItem(orderItem: OrderItem): Promise<void> {
+    //     await BaseDatabase.connection
+    //         .insert(orderItem)
+    //         .into(OrdersDatabase.TABLE_ORDER_ITEMS)
+    // }
  
 }

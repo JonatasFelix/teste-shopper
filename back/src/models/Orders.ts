@@ -4,7 +4,7 @@ export enum OrderStatus {
 }
 
 export interface IProduct {
-    id: string,
+    id: number,
     quantity: number
 }
 

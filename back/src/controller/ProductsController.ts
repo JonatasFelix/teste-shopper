@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ProductsBusiness } from "../business/ProductsBusiness";
-import { IInputProducList } from "../models/Products";
+import { IInputProducList, ISearchProducByName, Order, Sort } from "../models/Products";
 
 
 export class ProductsController {
@@ -13,7 +13,9 @@ export class ProductsController {
         try {
             const input: IInputProducList = {
                 page : Number(req.query.page),
-                quantity: Number(req.query.quantity)
+                quantity: Number(req.query.quantity),
+                order: req.query.order as Order,
+                sort: req.query.sort as Sort,
             }
 
             const products = await this.productsBusiness.getProducts(input)
@@ -36,4 +38,24 @@ export class ProductsController {
             res.status(error.statusCode || 500).send({ error: error.message || error.sqlMessage })
         }
     }
+
+
+    public searchProductByName = async (req: Request, res: Response) => {
+        try {
+            const input: ISearchProducByName = {
+                producName: req.query.q as string,
+                page: Number(req.query.page),
+                quantity: Number(req.query.quantity),
+                order: req.query.order as Order,
+                sort: req.query.sort as Sort 
+            }
+
+            const products = await this.productsBusiness.searchProductByName(input)
+
+            res.status(200).send(products)
+        } catch (error) {
+            res.status(error.statusCode || 500).send({ error: error.message || error.sqlMessage })
+        }
+    }
+
 }

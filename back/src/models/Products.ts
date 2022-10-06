@@ -1,10 +1,22 @@
+export enum Order {
+    ASC = 'asc',
+    DESC = 'desc'
+}
+
+export enum  Sort {
+    PRICE = 'price',
+    NAME = 'name'
+}
+
 export interface ISelectPrductDTO {
     id: number
 }
 
 export interface IInputProducList {
     page: number,
-    quantity: number
+    quantity: number,
+    order?: Order,
+    sort?: Sort
 }
 
 export interface IOutputProductList {
@@ -12,6 +24,15 @@ export interface IOutputProductList {
     page: string,
     quantity: number,
     total: number
+    ordened: string
+}
+
+export interface ISearchProducByName {
+    producName: string,
+    page: number,
+    quantity: number,
+    order?: Order,
+    sort?: Sort
 }
 
 
