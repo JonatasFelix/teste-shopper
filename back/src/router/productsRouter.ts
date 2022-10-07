@@ -12,7 +12,5 @@ const productsController = new ProductsController(
     )
 )
 
-
 productsRouter.get("/", productsController.getProducts)
-productsRouter.get("/search", productsController.searchProductByName)
 productsRouter.get("/:productId", productsController.getProductById)

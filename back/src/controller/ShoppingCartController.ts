@@ -60,4 +60,14 @@ export class ShoppingCartController {
             }
         }
 
+        public clearCart = async (req: Request, res: Response) => {
+            try {
+                await this.shoppingCartBusiness.clearCart()
+
+                res.status(204).send()
+            } catch (error) {
+                res.status(error.statusCode || 500).send({ error: error.message || error.sqlMessage })
+            }
+        }
+
 }

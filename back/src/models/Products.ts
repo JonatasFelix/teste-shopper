@@ -13,6 +13,7 @@ export interface ISelectPrductDTO {
 }
 
 export interface IInputProducList {
+    productName: string,
     page: number,
     quantity: number,
     order?: Order,
@@ -27,13 +28,6 @@ export interface IOutputProductList {
     ordened: string
 }
 
-export interface ISearchProducByName {
-    producName: string,
-    page: number,
-    quantity: number,
-    order?: Order,
-    sort?: Sort
-}
 
 export interface IInputChangeProductQuantityDTO {
     id: number,
@@ -46,7 +40,7 @@ export class Product {
         public productId: string,
         public name: string,
         public price: number,
-        public quantidadeStock: number,
+        public quantityStock: number,
     ) {}
 
 

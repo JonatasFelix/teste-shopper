@@ -3,8 +3,7 @@ import { ProductsDatabase } from "../database/ProductsDatabase";
 import BadRequest from "../errors/BadRequest";
 import MissingParameters from "../errors/MissingParameters";
 import NotFound from "../errors/NotFound";
-import { IInputOrder, IInputOrderDTO, IProduct, OrderStatus } from "../models/Orders";
-import { Product } from "../models/Products";
+import { IInputOrder, IInputOrderDTO, OrderStatus } from "../models/Orders";
 import { DateConversion } from "../services/DateConversion";
 import { IdGenerator } from "../services/IdGenerator";
 
@@ -17,7 +16,7 @@ export class OrdersBusiness {
         private dateConversion: DateConversion
     ) { }
 
-    public createOrder = async(input: IInputOrder): Promise<any> => {
+    public createOrder = async(input: IInputOrder): Promise<boolean> => {
             const { userName, products, appointmentDate } = input
 
             if (!userName || !products || !appointmentDate) {
@@ -102,5 +101,7 @@ export class OrdersBusiness {
 
             await Promise.all(productsList)
 
+
+            return true
     }
 }

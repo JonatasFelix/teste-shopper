@@ -111,28 +111,41 @@ export class ShoppingCartBusiness {
         return true
     }
 
-    public getCart = async (): Promise<IShoppingCartList> => {
+    public getCart = async (): Promise<IShoppingCartList | []> => {
         
         const products = await this.shoppingCartDatabase.selectAllProducts()
 
         if(!products.length) {
-            throw new NotFound("Your shopping cart is empty")
+            return []
         }
+
+        const productsInStock: ShoppingCartProduct[] = []
+        const productsOutOfStock: ShoppingCartProduct[] = []
 
         let totalValue = 0
         let totalQuantity = 0
 
-        const productsList = products.map((product: any) => {
-            totalValue += product.price * product.quantity
-            totalQuantity += product.quantity
-            return ShoppingCartProduct.toShoppingCartProductModel(product)
-        })
+        products.forEach((product: ShoppingCartProduct) => {
+            product = ShoppingCartProduct.toShoppingCartProductModel(product)
+            if(product.quantityStock > 0) {
+                productsInStock.push(product)
+                totalValue += product.price * product.quantity
+                totalQuantity += product.quantity
+            } else {
+                productsOutOfStock.push(product)
+            }
+        });
 
         totalValue = Number(totalValue.toFixed(2))
 
-        const result: IShoppingCartList = { list: productsList, totalValue, totalQuantity }
+        const result: IShoppingCartList = { list: productsInStock, totalValue, totalQuantity, outStock: productsOutOfStock }
 
         return result
+    }
+
+    public clearCart = async (): Promise<boolean> => {
+        await this.shoppingCartDatabase.deleteAllProducts()
+        return true
     }
 
 }

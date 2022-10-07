@@ -17,5 +17,6 @@ const shoppingCartController = new ShoppingCartController(
 shoppingCartRouter.get("/", shoppingCartController.getCart)
 shoppingCartRouter.post('/:productId', shoppingCartController.addProduct)
 shoppingCartRouter.put('/:productId', shoppingCartController.updateProductQuantity)
+shoppingCartRouter.delete('/all', shoppingCartController.clearCart)
 shoppingCartRouter.delete('/:productId', shoppingCartController.removeProduct)
 

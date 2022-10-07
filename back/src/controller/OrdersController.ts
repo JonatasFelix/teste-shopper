@@ -16,9 +16,9 @@ export class OrdersController {
                 appointmentDate: req.body.appointmentDate as Date
             }
 
-            const order = await this.ordersBusiness.createOrder(input)
+            await this.ordersBusiness.createOrder(input)
 
-            res.status(200).send(order)
+            res.status(204).send()
 
         } catch (error) {
             res.status(error.statusCode || 500).send({ error: error.message || error.sqlMessage })

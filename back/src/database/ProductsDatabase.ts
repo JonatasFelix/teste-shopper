@@ -1,4 +1,4 @@
-import { IInputChangeProductQuantityDTO, IInputProducList, ISearchProducByName, ISelectPrductDTO } from "../models/Products"
+import { IInputChangeProductQuantityDTO, IInputProducList, ISelectPrductDTO } from "../models/Products"
 import { BaseDatabase } from "./BaseDatabase"
 
 export class ProductsDatabase extends BaseDatabase {
@@ -11,37 +11,18 @@ export class ProductsDatabase extends BaseDatabase {
             .orderBy(data.sort, data.order)
             .limit(data.quantity)
             .offset(data.quantity * (data.page - 1))
+            .where("name", "LIKE", `%${data.productName}%`)
 
         return products
     }
 
-    public selectCountProducts = async (): Promise<any> => {
+    public selectCountProducts = async (search: string): Promise<any> => {
         const count = await BaseDatabase.connection
             .count("* as count")
             .from(ProductsDatabase.TABLE_PRODUCTS)
+            .where("name", "LIKE", `%${search}%`)
 
         return count[0].count
-    }
-
-    public selectCountProductsByName = async(name: string): Promise<any> => {
-        const count = await BaseDatabase.connection
-            .count("* as count")
-            .from(ProductsDatabase.TABLE_PRODUCTS)
-            .where("name", "LIKE", `%${name}%`)
-
-        return count[0].count
-    }
-
-    public selectProductsByName = async(data: ISearchProducByName): Promise<any> =>{
-        const products = await BaseDatabase.connection
-            .select("*")
-            .from(ProductsDatabase.TABLE_PRODUCTS)
-            .where("name", "LIKE", `%${data.producName}%`)
-            .orderBy(data.sort, data.order)
-            .limit(data.quantity)
-            .offset(data.quantity * (data.page - 1))
-        
-        return products
     }
 
     public selectProductById = async(input: ISelectPrductDTO): Promise<any> => {
@@ -59,4 +40,5 @@ export class ProductsDatabase extends BaseDatabase {
             .from(ProductsDatabase.TABLE_PRODUCTS)
             .where({ id: input.id })
     }
+
 }

@@ -32,7 +32,8 @@ export interface ISelectCartPrductDTO {
 }
 
 export interface IShoppingCartList {
-    list: ShoppingCartProduct[]
+    list: ShoppingCartProduct[],
+    outStock: ShoppingCartProduct[],
     totalValue: number,
     totalQuantity: number
 }
@@ -44,7 +45,7 @@ export class ShoppingCartProduct {
         public productId: string,
         public name: string,
         public price: number,
-        public quantidadeStock: number,
+        public quantityStock: number,
         public quantity: number
     ) {}
 
