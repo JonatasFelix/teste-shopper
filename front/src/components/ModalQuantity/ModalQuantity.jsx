@@ -5,6 +5,7 @@ import { putProductQuantityCart } from "../../services/putProductQuantityCart";
 import { getShoppingCartList } from "../../services/getShoppingCartList";
 import Loader from "../Loader/Loader";
 import { deleteProductShoppingCart } from "../../services/deleteProductShoppingCart";
+import { toast } from 'react-toastify';
 
 const ModalQuantity = ({
     setClose,
@@ -34,12 +35,17 @@ const ModalQuantity = ({
         }
 
         if(quantityValue === 0){
-            await deleteProductShoppingCart(productId);
+            await deleteProductShoppingCart(productId)
+                .then(() => toast.success("Produto removido com sucesso!"))
+                .catch(() => toast.error("Não foi possível remover o produto!"))
         }
 
-        if (quantity !== quantityValue && quantityValue <= maxQuantity) {
+        if (quantity !== quantityValue && quantityValue <= maxQuantity && quantityValue !== 0) {
             setLoading(true);
             await putProductQuantityCart(quantityValue, productId)
+                .then(() => toast.success("Quantidade alterada com sucesso!"))
+                .catch(() => toast.error("Não foi possível alterar a quantidade!"))
+
             await getShoppingCartList(setLoaderCart, setShoppingCart, setCartError);
         }
         setLoading(false);

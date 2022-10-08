@@ -4,6 +4,7 @@ import { putProductQuantityCart } from '../../services/putProductQuantityCart';
 import { getShoppingCartList } from '../../services/getShoppingCartList';
 import { deleteProductShoppingCart } from '../../services/deleteProductShoppingCart';
 import Loader from '../Loader/Loader';
+import { toast } from 'react-toastify';
 
 
 const ButtonLessAndMore = ({
@@ -21,6 +22,8 @@ const ButtonLessAndMore = ({
     const handleAdd = async () => {
         setLoading(true);
         await putProductQuantityCart(quantity + 1, productId)
+            .then(() => toast.success("Quantidade alterada com sucesso!"))
+            .catch(() => toast.error("Não foi possível alterar a quantidade!"))
         await getShoppingCartList(setLoaderCart, setShoppingCart, setCartError);
         setLoading(false);
     }
@@ -29,8 +32,12 @@ const ButtonLessAndMore = ({
         setLoading(true);
         if (quantity > 1) {
             await putProductQuantityCart(quantity - 1, productId)
+                .then(() => toast.success("Quantidade alterada com sucesso!"))
+                .catch(() => toast.error("Não foi possível alterar a quantidade!"))
         } else {
             await deleteProductShoppingCart(productId)
+                .then(() => toast.success("Produto removido com sucesso!"))
+                .catch(() => toast.error("Não foi possível remover o produto!"))
         }
 
         await getShoppingCartList(setLoaderCart, setShoppingCart, setCartError)

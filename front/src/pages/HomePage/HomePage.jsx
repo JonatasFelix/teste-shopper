@@ -10,6 +10,8 @@ import Pagination from "../../components/Pagination/Pagination";
 import SelectSort from "../../components/SelectSort/SelectSort";
 import { getProductsList } from "../../services/getProductsList";
 
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const HomePage = () => {
 
@@ -60,6 +62,7 @@ const HomePage = () => {
     return (
         <div>
             <Header />
+
             <s.Container>
                 <s.BoxSelector>
                     <SelectSort setOrder={setOrder} setSort={setSort}/>
