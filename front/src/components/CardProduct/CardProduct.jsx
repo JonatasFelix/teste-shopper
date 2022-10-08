@@ -1,51 +1,74 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import GlobalContext from "../../context/GlobalContext";
 import * as s from "./styles"
 import ButtonLessAndMore from "../ButtonLessAndMore/ButtonLessAndMore";
 import ModalQuantity from "../ModalQuantity/ModalQuantity";
+import ButtonUnavailable from "../ButtonUnavailable/ButtonUnavailable";
+import ButtonAdd from "../ButtonAdd/ButtonAdd";
 
 const CardProduct = (product) => {
     const { states, setters } = useContext(GlobalContext);
     const { shoppingCart } = states;
-    const { setShoppingCart } = setters;
+    const { setShoppingCart, setLoaderCart, setCartError } = setters;
+    const [itemInCartQuantity, setItemInCartQuantity] = useState(0);
 
     const [openBox, setOpenBox] = useState(false);
-    const itemInCartQuantity = shoppingCart.find((item) => item.id === product.id)?.quantity || 0;
-
-    const [quantity, setQuantity] = useState(itemInCartQuantity);
+    
+    useEffect(() => {
+        setItemInCartQuantity(shoppingCart.list?.find((item) => item.productId === product.productId)?.quantity || 0)
+    }, [shoppingCart, product.productId]);
 
 
     const ShowButton = () => {
-        if(!product.quantity){
-            return <s.ButtonProductUnavailable>Indisponível</s.ButtonProductUnavailable>
+        if(!product.quantityStock){
+            return <ButtonUnavailable/>
         } else if (itemInCartQuantity) {
             return <ButtonLessAndMore 
-                    maxQuantity={product.quantity} 
+                    maxQuantity={product.quantityStock} 
                     quantity={itemInCartQuantity} 
                     setQuantity={setShoppingCart}
-                    setOpenBox={setOpenBox}        
+                    setOpenBox={setOpenBox}
+                    
+                    setShoppingCart={setShoppingCart} 
+                    productId={product.productId}
+                    setLoaderCart={setLoaderCart}
+                    setCartError={setCartError}
+                    shoppingCart={shoppingCart}
+
                     />
         } else {
-            return <s.ButtonProductAdd>Adicionar</s.ButtonProductAdd>
+            return (
+            <ButtonAdd 
+                setShoppingCart={setShoppingCart} 
+                productId={product.productId}
+                setLoaderCart={setLoaderCart}
+                setCartError={setCartError}
+                >
+                    Adicionar
+            </ButtonAdd>)
         }
     }
-
 
     return (
         <s.Container>
             <ModalQuantity 
-                setClose={setOpenBox} 
+                setClose={setOpenBox}
+                quantity={itemInCartQuantity}
+                maxQuantity={product.quantityStock}
                 open={openBox}
-                maxQuantity={product.quantity}
-                quantity={quantity}
-                setQuantityValue={setQuantity}
+                setLoaderCart={setLoaderCart}
+                setShoppingCart={setShoppingCart}
+                setCartError={setCartError}
+                productId={product.productId}
             />
-            <s.Title>{product.title}</s.Title>
+            <s.Title title={product.name}>
+                {product.name.substring(0, 55)}{product.name.length >= 55 && "..."}
+            </s.Title>
             <div>
                 <s.LocalCurrency>R$: </s.LocalCurrency>
-                <s.ProductPrice>{product.price},00</s.ProductPrice>
+                <s.ProductPrice>{product.price.toFixed(2).toString().replace(".", ",")}</s.ProductPrice>
             </div>
-            <s.ProductQuantity>Quantidade: {product.quantity} unds</s.ProductQuantity>
+            <s.ProductQuantity>Quantidade: {product.quantityStock} unds</s.ProductQuantity>
             <ShowButton />
 
         </s.Container>

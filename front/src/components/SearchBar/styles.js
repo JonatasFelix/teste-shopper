@@ -41,3 +41,18 @@ export const SearchButton = styled.button`
     padding: 9px 10px;
     flex-grow: 1;
 `
+
+
+export const ClearButton = styled.button`
+    cursor: pointer;
+    background: #b4b4b5;
+    border-radius: 50%;
+    border: 0 none;
+    margin: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+`

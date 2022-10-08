@@ -1,10 +1,12 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 
 export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    position: relative;
 `
 
 export const ButtonMore = styled.button`
@@ -66,5 +68,18 @@ export const ButtonQuantity = styled.button`
     &:hover {
         transform: scale(1.1);
     }
+
+`
+
+export const LoaderContainer = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffffc2;
 
 `

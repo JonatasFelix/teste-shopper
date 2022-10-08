@@ -1,6 +1,7 @@
 import * as s from "./styles";
 import Logo from "../../assets/imgs/logo.png";
 import SearchBar from "../SearchBar/SearchBar";
+import qs from "query-string";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { logoNavigation } from "../../routes/Coordinator";
@@ -13,29 +14,34 @@ const Header = () => {
     const { shoppingCart } = states;
     const { setShoppingCart } = setters;
     
-
     const location = useLocation();
-    const params = useParams();
     const navigate = useNavigate();
+    const parsed = qs.parse(location.search);
+    const searchQuery = parsed.q
 
     const logoHandlerClick = () => {
-        console.log(location.pathname);
-        logoNavigation(navigate, location.pathname);
+        logoNavigation(navigate, location.pathname, searchQuery);
     };
+
+    // const ShowCart = () => {
+    //     return (
+    //         carL
+    //     )
+    // };
 
     return (
         <>
         <s.Container>
             <s.Content>
                 <s.Logo src={Logo} alt="Logo" onClick={logoHandlerClick} />
-                <s.SerchBoxDesktop><SearchBar/></s.SerchBoxDesktop>
+                <s.SerchBoxDesktop><SearchBar searchQuery={searchQuery}/></s.SerchBoxDesktop>
                 <s.CartIcon> 
                     <AiOutlineShoppingCart color={"#DA5726"} size="24px" />
-                    <s.CartIconCount count={shoppingCart.length}>{shoppingCart.length}</s.CartIconCount>
+                    <s.CartIconCount count={shoppingCart?.totalQuantity}>{shoppingCart?.totalQuantity}</s.CartIconCount>
                 </s.CartIcon>
             </s.Content>
         </s.Container>
-        <s.SerchBoxMobile><SearchBar/></s.SerchBoxMobile>
+        <s.SerchBoxMobile><SearchBar searchQuery={searchQuery}/></s.SerchBoxMobile>
         </>
     );
 };

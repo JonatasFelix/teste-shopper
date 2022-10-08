@@ -1,18 +1,19 @@
 import GlobalContext from '../context/GlobalContext';
 import React, { useState, useEffect, useCallback } from 'react';
+import { getShoppingCartList } from '../services/getShoppingCartList';
 
 export default function GlobalProvider({ children }) {
     
   const [shoppingCart, setShoppingCart] = useState([]);
-  const [loaderCard, setLoaderCard] = useState(false);
-
+  const [loaderCart, setLoaderCart] = useState(false);
+  const [cartError, setCartError] = useState(false);
 
   useEffect(() => {
-    setShoppingCart([{ id: 1, title: "Camiseta", price: 20, quantity: 1 }])
+    getShoppingCartList(setLoaderCart, setShoppingCart, setCartError);
   }, []);
 
-  const states = { shoppingCart };
-  const setters = { setShoppingCart };
+  const states = { shoppingCart, cartError, loaderCart };
+  const setters = { setShoppingCart, setLoaderCart, setCartError };
   const data = { states, setters };
 
   return (

@@ -1,5 +1,13 @@
-export const logoNavigation = (navigate, pathname) => {
-    if(pathname !== '/'){
+export const logoNavigation = (navigate, pathname, search) => {
+    if(pathname !== '/' || search) {
         navigate('/')
     }
+}
+
+export const homeNavigation = (navigate) => {
+    navigate('/')
+}
+
+export const searchNavigation = (navigate, search) => {
+    navigate(`/?q=${search}`)
 }

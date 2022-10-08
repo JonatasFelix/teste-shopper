@@ -4,8 +4,25 @@ export const Container = styled.main`
     margin: 0 auto;
     max-width: 1200px;
     padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
     margin-top: 30px;
-    gap: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 530px) {
+        margin-top: 16px;
+    }
+
+`
+
+export const BoxSelector = styled.div`
+    display: flex;
+    justify-content: end;
+    margin-bottom: 16px;
+`
+
+export const ProductsContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 25px;
 `
