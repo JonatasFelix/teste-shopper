@@ -23,7 +23,7 @@ const HomePage = () => {
     const [quantityItems, setQuantityItems] = useState(10);
     const [order, setOrder] = useState("asc");
     const [sort, setSort] = useState("name");
-   
+
     const arrayLoader = Array(quantityItems).fill("")
 
     const location = useLocation();
@@ -43,15 +43,9 @@ const HomePage = () => {
             order,
             sort,
             search
-            )
+        )
     }, [page, order, sort, search, quantityItems]);
 
-
-    const ShowProducts = () => {
-        return productsList.list.map((product) => {
-            return <CardProduct key={product.productId} {...product} />;
-        });
-    };
 
     const ShowLoader = () => {
         return arrayLoader.map((item, index) => {
@@ -59,21 +53,38 @@ const HomePage = () => {
         });
     }
 
+    const ShowProducts = () => {
+        return productsList.list.map((product) => {
+            return <CardProduct key={product.productId} {...product} />;
+        });
+    };
+
+    const ShowProductsCards = () => {
+        return (
+            productsList.list
+                ? <ShowProducts />
+                : <s.ErrorMsg>Xii! Não encontramos nenhum produto com esse nome!</s.ErrorMsg>
+        )
+    }
+
     return (
         <div>
             <Header />
 
             <s.Container>
-                <s.BoxSelector>
-                    <SelectSort setOrder={setOrder} setSort={setSort}/>
-                </s.BoxSelector>
+                {productsList.list &&
+                    <s.BoxSelector>
+                        <SelectSort setOrder={setOrder} setSort={setSort} />
+                    </s.BoxSelector>
+                }
                 <s.ProductsContainer>
-                    {error ? <p>Erro ao carregar os produtos</p> 
-                    : loading 
-                    ? <ShowLoader/>
-                    :<ShowProducts /> }
+                    {error ? <p>Erro ao carregar os produtos</p>
+                        : loading
+                            ? <ShowLoader />
+                            : <ShowProductsCards />
+                    }
                 </s.ProductsContainer>
-                {productsList.list && <Pagination total={totalItens} setPage={setPage}/>}
+                {productsList.list && <Pagination total={totalItens} setPage={setPage} />}
             </s.Container>
         </div>
     )

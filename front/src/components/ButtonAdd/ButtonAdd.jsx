@@ -14,6 +14,7 @@ const ButtonAdd = ({ productId, setShoppingCart, setLoaderCart, setCartError }) 
         await postProductInShoppingCart(productId)
             .then(() => toast.success("Produto adicionado com sucesso!"))
             .catch(() => toast.error("Não foi possível adicionar o produto!"))
+            
         await getShoppingCartList(setLoaderCart, setShoppingCart, setCartError);
         setLoading(false);
     }

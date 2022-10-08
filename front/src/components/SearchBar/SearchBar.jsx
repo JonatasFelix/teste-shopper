@@ -36,18 +36,19 @@ const SearchBar = ({ searchQuery }) => {
     }, [searchQuery]);
 
     return (
-        <s.Container onSubmit={seachClick}>
+        <s.FormContainer onSubmit={seachClick}>
             <s.SearchIcon><GrSearch /></s.SearchIcon>
             <s.Input type="text" placeholder="Buscar" value={search} onChange={handleSearch} />
 
-            {search
-                && <s.ClearButton onClick={clearSearch}>
+            {search &&
+                <s.ClearButton onClick={clearSearch}>
                     <IoClose color="#4d4d4d" size="26px" />
-                </s.ClearButton>}
+                </s.ClearButton>
+            }
 
 
             <s.SearchButton>Buscar</s.SearchButton>
-        </s.Container>
+        </s.FormContainer>
     );
 
 

@@ -26,3 +26,10 @@ export const ProductsContainer = styled.div`
     justify-content: center;
     gap: 25px;
 `
+
+
+export const ErrorMsg = styled.h1`
+    text-align: center;
+    color: #DA5726;
+    margin-top: 20px;
+`

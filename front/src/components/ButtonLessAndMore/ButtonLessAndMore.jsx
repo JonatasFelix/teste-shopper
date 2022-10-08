@@ -24,6 +24,7 @@ const ButtonLessAndMore = ({
         await putProductQuantityCart(quantity + 1, productId)
             .then(() => toast.success("Quantidade alterada com sucesso!"))
             .catch(() => toast.error("Não foi possível alterar a quantidade!"))
+            
         await getShoppingCartList(setLoaderCart, setShoppingCart, setCartError);
         setLoading(false);
     }

@@ -9,7 +9,7 @@ export class ProductsBusiness {
         private productsDatabase: ProductsDatabase
     ) { }
 
-    public getProducts = async (input: IInputProducList): Promise<IOutputProductList> => {
+    public getProducts = async (input: IInputProducList): Promise<IOutputProductList | []> => {
 
         let { productName, page, quantity, order, sort } = input
 
@@ -21,14 +21,14 @@ export class ProductsBusiness {
             quantity = 10
         }
 
-        if(!productName) {
+        if(!productName || typeof productName !== "string") {
             productName = ""
         }
 
         const count = await this.productsDatabase.selectCountProducts(productName)
 
         if(!count) {
-            throw new NotFound("No products found")
+            return []
         }
 
         const pages = Math.ceil(count / quantity)
@@ -49,6 +49,7 @@ export class ProductsBusiness {
         const productsList: Product[] = products.map((product: any) => {
             return Product.toProductModel(product)
         })
+
 
         const result: IOutputProductList = {
             list: productsList,

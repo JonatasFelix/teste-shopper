@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.form`
+export const FormContainer = styled.form`
     border: 1px solid #D9D9D9;
     border-radius: 10px;
 
@@ -43,7 +43,7 @@ export const SearchButton = styled.button`
 `
 
 
-export const ClearButton = styled.button`
+export const ClearButton = styled.div`
     cursor: pointer;
     background: #b4b4b5;
     border-radius: 50%;

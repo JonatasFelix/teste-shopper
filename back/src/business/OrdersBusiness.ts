@@ -67,7 +67,7 @@ export class OrdersBusiness {
                 }
 
                 if (verifyProduct[0].qty_stock === 0) {
-                    throw new BadRequest(`Product with id ${product.id} is out of stock`)
+                    throw new BadRequest(`Product with id ${product.id} and name ${verifyProduct[0].name} is out of stock`)
                 }
 
                 if (verifyProduct[0].qty_stock < product.quantity) {
