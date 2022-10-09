@@ -11,6 +11,7 @@ import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 import Pagination from "../../components/Pagination/Pagination";
 import SelectSort from "../../components/SelectSort/SelectSort";
 import { getProductsList } from "../../services/getProductsList";
+import Loader from "../../components/Loader/Loader";
 
 const HomePage = () => {
 
@@ -23,6 +24,7 @@ const HomePage = () => {
     const [error, setError] = useState(false);              // ERRO
     const [order, setOrder] = useState("asc");              // ORDEM DE ORDENAÇÃO - ASC OU DESC
     const [sort, setSort] = useState("name");               // TIPO DE ORDENAÇÃO - NAME OU PRICE
+    const [reload, setReload] = useState(false);            // RELOAD PARA ATUALIZAR A PAGINA
 
     // QUANTIDADE DE INTENS QUE SERÃO MOSTRADOS NA PAGINA
     const quantityItems = 10;
@@ -40,7 +42,7 @@ const HomePage = () => {
 
 
     // FAZ A REQUISIÇÃO DOS PRODUTOS E ATUALIZA O ESTADO QUANDO A PÁGINA É CARREGADA E
-    // QUANDO OS PARAMETROS DE PAGINAÇÃO, ORDENAÇÃO E BUSCA SÃO ALTERADOS
+    // QUANDO OS PARAMETROS DE PAGINAÇÃO, ORDENAÇÃO, BUSCA E RELOAD SÃO ALTERADOS
     useEffect(() => {
         getProductsList(
             setError,
@@ -53,7 +55,7 @@ const HomePage = () => {
             sort,
             search
         )
-    }, [page, order, sort, search]);
+    }, [page, order, sort, search, reload]);
 
     // MAP DA ARRAY FAKE PARA GERAR O SKELTON LOADER
     const ShowLoader = () => {
@@ -74,8 +76,23 @@ const HomePage = () => {
     const ShowProductsCards = () => {
         return (
             productsList.list
-                ? <ShowProducts /> 
+                ? <ShowProducts />
                 : <s.ErrorMsg>Xii! Não encontramos nenhum produto com esse nome!</s.ErrorMsg>
+        )
+    }
+
+    // MENSSAGEM DE ERRO CASO A REQUISIÇÃO NÃO SEJA BEM SUCEDIDA
+    const ShowErrorLoadindProducts = () => {
+        return (
+            <s.ErrorContainer>
+                <s.ErrorMsg>Ops! Ocorreu um erro ao carregar os produtos!</s.ErrorMsg>
+
+                {loading
+                    ? <s.ErrorButton disabled><Loader height={"20px"} width={"20px"}/></s.ErrorButton>
+                    : <s.ErrorButton onClick={() => setReload(!reload)}>Tentar novamente</s.ErrorButton>
+                }
+
+            </s.ErrorContainer>
         )
     }
 
@@ -85,20 +102,24 @@ const HomePage = () => {
 
             <s.Container>
                 {productsList.list &&                                       // CONDICIONAL PARA MOSTRAR O SELECT DE ORDENAÇÃO
-                   // COMPONENTE DE ORDENAÇÃO
-                   <s.BoxSelector>     
+                    // COMPONENTE DE ORDENAÇÃO
+                    <s.BoxSelector>
                         <SelectSort setOrder={setOrder} setSort={setSort} />
                     </s.BoxSelector>
                 }
                 <s.ProductsContainer>
-                    {error ? <p>Erro ao carregar os produtos</p>    // CONDICIONAL PARA MOSTRAR A MENSSAGEM DE ERRO
+                    {error ? <ShowErrorLoadindProducts />   // CONDICIONAL PARA MOSTRAR A MENSSAGEM DE ERRO
                         : loading
                             ? <ShowLoader />            // RENDERIZA O SKELTON LOADER
                             : <ShowProductsCards />     // RENDERIZA OS CARDS DOS PRODUTOS OU A MENSAGEM DE NADA ENCONTRADO
                     }
                 </s.ProductsContainer>
                 {productsList.list &&                                   // CONDICIONAL PARA MOSTRAR A PAGINAÇÃO
-                    <Pagination total={totalItens} setPage={setPage} /> // RENDERIZA A PAGINAÇÃO
+                    <Pagination                                         // RENDERIZA A PAGINAÇÃO
+                        total={totalItens}
+                        setPage={setPage}
+                        quantityItems={quantityItems}
+                    />
                 }
             </s.Container>
         </div>

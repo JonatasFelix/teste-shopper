@@ -15,7 +15,6 @@ export const Container = styled.div`
 
 export const Box = styled.div`
     width: 330px;
-    height: 280px;
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -41,9 +40,29 @@ export const SaveName = styled.form`
     gap: 10px;
 `
 
-export const Input = styled.input``
+export const Logo = styled.img`
+    width: 180px
+`
 
-export const Button = styled.button``
+export const Input = styled.input`
+    box-shadow: 0 0 0 0;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    outline: 0;
+    height: 32px;
+    width: 210px;
+    padding: 0 10px;
+    font-size: 14px;
+    margin-top: 14px;
+`
+
+export const Button = styled.button`
+    background-color: #DA5726;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 35px;
+`
 
 export const DisplayNone = styled.div`
     display: none;

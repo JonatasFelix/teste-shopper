@@ -1,5 +1,9 @@
 import { DatePicker as DatePickerRainbow } from "react-rainbow-components";
 
+// DATE PICKER - REACT RAINBOW COMPONENTS
+// RECEBE COMO PROPRIEDADES O ESTADO DA DATA, O SETTER DO ESTADO DA DATA, O ERRO E SE O CARRINHO ESTÁ VAZIO
+
+
 const DatePicker = ({ dateState, setDateState, error, cartEmpty }) => {
 
     // GERA A DATA ATUAL + 30 DIAS
@@ -15,7 +19,7 @@ const DatePicker = ({ dateState, setDateState, error, cartEmpty }) => {
     return (
         <div>
             {
-                !cartEmpty ? (
+                !cartEmpty ? (                      // SE O CARRINHO ESTIVER VAZIO - MOSTRA O DATE PICKER DESABILITADO
                     <DatePickerRainbow
                         labelAlignment="left"
                         disabled
@@ -28,7 +32,7 @@ const DatePicker = ({ dateState, setDateState, error, cartEmpty }) => {
                         onChange={(value) => setDateState(value)}
                     />
                 ) :
-                    error && !dateState ? (
+                    error && !dateState ? (             // SE O ERRO ESTIVER ATIVO E A DATA NÃO ESTIVER DEFINIDA - MOSTRA O DATE PICKER COM ERRO
                         <DatePickerRainbow
                             labelAlignment="left"
                             label="Selecione uma data de entrega"
@@ -41,7 +45,7 @@ const DatePicker = ({ dateState, setDateState, error, cartEmpty }) => {
                             onChange={(value) => setDateState(value)}
                         />
                     ) :
-                        <DatePickerRainbow
+                        <DatePickerRainbow                      // SE NÃO ESTIVER NENHUM DOS CASOS ACIMA - MOSTRA O DATE PICKER NORMAL
                             labelAlignment="left"
                             label="Selecione uma data de entrega"
                             required

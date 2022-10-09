@@ -9,17 +9,22 @@ import { toast } from "react-toastify";
 import ModalQuantity from "../ModalQuantity/ModalQuantity";
 import ButtonUnavailable from "../ButtonUnavailable/ButtonUnavailable";
 
+// CARD SHOPPING CART PRODUCT - RENDERIZA OS PRODUTOS DO CARRINHO DE COMPRAS DISPONÍVEIS E INDISPONÍVEIS
+// RECEBE COMO PROPRIEDADES O PRODUTO, OS ESTADOS E OS SETTERS
+
+
 const CardShoppingCartProduct = ({ product, states, setters }) => {
-    const { shoppingCart, loaderCart } = states;
-    const { setShoppingCart, setLoaderCart, setCartError } = setters;
-    const [openBox, setOpenBox] = useState(false);
+    const { shoppingCart, loaderCart } = states;                        // STATES DO CONTEXTO GLOBAL
+    const { setShoppingCart, setLoaderCart, setCartError } = setters;   // SETTERS DO CONTEXTO GLOBAL
+    const [openBox, setOpenBox] = useState(false);                      // ESTADO QUE CONTROLA A ABERTURA DO MODAL DE QUANTIDADE
 
-    const name = product.name;
-    const price = product.price.toFixed(2).toString().replace(".", ",");
-    const total = (product.price * product.quantity).toFixed(2).toString().replace(".", ",");
-    const quantity = product.quantity;
+    const name = product.name;                                                                  // NOME DO PRODUTO
+    const price = product.price.toFixed(2).toString().replace(".", ",");                        // PREÇO DO PRODUTO FORMATADO
+    const total = (product.price * product.quantity).toFixed(2).toString().replace(".", ",");   // TOTAL DO PRODUTO FORMATADO
+    const quantity = product.quantity;                                                          // QUANTIDADE DO PRODUTO
 
 
+    // FUNÇÃO QUE REMOVE O PRODUTO DO CARRINHO DE COMPRAS
     const buttonRemoveHandler = async () => {
         await deleteProductShoppingCart(product.productId)
             .then(() => toast.success("Produto removido com sucesso"))
@@ -28,6 +33,7 @@ const CardShoppingCartProduct = ({ product, states, setters }) => {
     };
 
 
+    // FUNÇÃO QUE RENDERIZA A OPÇÃO DE ALTERAR A QUANTIDADE DO PRODUTO
     const ShowButtonLessAndMore = () => {
         return (<>
             <ButtonLessAndMore
@@ -42,7 +48,7 @@ const CardShoppingCartProduct = ({ product, states, setters }) => {
                 shoppingCart={shoppingCart}
             />
 
-            {product.quantityStock < quantity &&
+            {product.quantityStock < quantity &&   // CASO A QUANTIDADE DO PRODUTO SEJA MAIOR QUE A QUANTIDADE EM ESTOQUE, RENDERIZA UMA MESAGEM
                 <s.QuantityUnavailableMsg
                     title={`Quantidade escolhida indisponível. 
                         Quantidade disponível: ${product.quantityStock}`

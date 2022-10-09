@@ -13,8 +13,6 @@ const ShoppingCart = () => {
     const { states, setters } = useContext(GlobalContext);
     const { shoppingCart } = states;
 
-
-
     // FAZ O MAP DOS PRODUTOS DO CARRINHO
     // E RETORNA O COMPONENTE DE PRODUTO DO CARRINHO
     const ShowCartProductInStockProducts = () => {
@@ -89,8 +87,6 @@ const ShoppingCart = () => {
         )
     }
 
-
-
     return (
         <div>
             <Header />
@@ -107,7 +103,7 @@ const ShoppingCart = () => {
                         }
                     </p>
                     <ButtonFinishBuy
-                        body={{ userName: "teste", products: shoppingCart.list, appointmentDate: date?.toISOString() }}
+                        date={date?.toISOString()}
                         setters={setters}
                         states={states}
                         setError={setError}

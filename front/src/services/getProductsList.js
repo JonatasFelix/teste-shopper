@@ -23,7 +23,7 @@ export const getProductsList = async (
             setError(false);
         })
         .catch((err) => {
-            setError(err);
+            setError(true);
             setProductsList([]);
         })
 
