@@ -16,21 +16,21 @@ export class ShoppingCartBusiness {
         const productId = input.productId
 
         if(isNaN(productId)) {
-            throw new BadRequest("quantityStock")
+            throw new BadRequest("id é obrigatório")
         }
 
         const inputSelectProduct: ISelectPrductDTO = { id: productId }
         const prdouctExists = await this.productsDatabase.selectProductById(inputSelectProduct)
 
         if(!prdouctExists.length) {
-            throw new NotFound("Product not found")
+            throw new NotFound("Produto não encontrado")
         }
 
         const inputSelectCart: ISelectCartPrductDTO = { id_product: productId }
         const product = await this.shoppingCartDatabase.selectProduct(inputSelectCart)
 
         if(!product.length) {
-            throw new NotFound("This product is not in your shopping cart")
+            throw new NotFound("Este produto não está no carrinho")
         }
 
         const inputDelete: IRemoveProductDTO = { id_product: productId }
@@ -44,33 +44,33 @@ export class ShoppingCartBusiness {
         const quantity = input.quantity
 
         if(isNaN(productId)) {
-            throw new BadRequest("id must be a number")
+            throw new BadRequest("id é obrigatório")
         }
 
         if(isNaN(quantity)) {
-            throw new BadRequest("quantity must be a number")
+            throw new BadRequest("quantity é obrigatório")
         }
 
         if(quantity < 1) {
-            throw new BadRequest("quantity must be greater than 0, or remove the product")
+            throw new BadRequest("quantity deve ser maior que 0, ou remova o produto do carrinho")
         }
 
         const inputSelectProduct: ISelectPrductDTO = { id: productId }
         const prdouctExists = await this.productsDatabase.selectProductById(inputSelectProduct)
 
         if(!prdouctExists.length) {
-            throw new NotFound("Product not found")
+            throw new NotFound("Produto não encontrado")
         }
 
         if(quantity > prdouctExists[0].qty_stock) {
-            throw new BadRequest("Insufficient stock")
+            throw new BadRequest(`Quantidade em estoque insuficiente, temos apenas ${prdouctExists[0].qty_stock} unidades`)
         }
 
         const inputSelectCart: ISelectCartPrductDTO = { id_product: productId }
         const product = await this.shoppingCartDatabase.selectProduct(inputSelectCart)
 
         if(!product.length) {
-            throw new NotFound("This product is not in your shopping cart")
+            throw new NotFound("Este produto não está no carrinho")
         }
 
         const inputUpdate: IUpdateProductQuantityDTO = { id_product: productId, quantity }
@@ -84,25 +84,25 @@ export class ShoppingCartBusiness {
         const productId = input.productId
 
         if(isNaN(productId)) {
-            throw new BadRequest("id must be a number")
+            throw new BadRequest("id é obrigatório")
         }
 
         const inputSelectProduct: ISelectPrductDTO = { id: productId }
         const prdouctExists = await this.productsDatabase.selectProductById(inputSelectProduct)
 
         if(!prdouctExists.length) {
-            throw new NotFound("Product not found")
+            throw new NotFound("Produto não encontrado")
         }
 
         const inputSelectCart: ISelectCartPrductDTO = { id_product: productId }
         const product = await this.shoppingCartDatabase.selectProduct(inputSelectCart)
 
         if(product.length) {
-            throw new Conflict("This product is already in your shopping cart")
+            throw new Conflict("Este produto já está no carrinho")
         }
 
         if(prdouctExists[0].qty_stock === 0) {
-            throw new BadRequest("Insufficient stock")
+            throw new BadRequest("Produto indisponível")
         }
 
         const inputAdd: IAddProductCartDTO = { id_product: productId, quantity: 1 }

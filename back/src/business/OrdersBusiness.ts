@@ -20,54 +20,54 @@ export class OrdersBusiness {
             const { userName, products, appointmentDate } = input
 
             if (!userName || !products || !appointmentDate) {
-                throw new MissingParameters("userName, products, appointmentDate")
+                throw new MissingParameters("userName, products, appointmentDate são obrigatórios")
             }
 
             if (typeof userName !== "string") {
-                throw new BadRequest("userName must be a string")
+                throw new BadRequest("userName deve ser uma string")
             }
 
             if (!Array.isArray(products)) {
-                throw new BadRequest("products must be an array")
+                throw new BadRequest("products deve ser um array")
             }
 
             if (typeof appointmentDate !== "string") {
-                throw new BadRequest("appointmentDate must be a string")
+                throw new BadRequest("appointmentDate deve ser uma string")
             }
 
             if (!this.dateConversion.checkDateValidity(appointmentDate)) {
-                throw new BadRequest("Invalid date")
+                throw new BadRequest("appointmentDate deve ser uma data válida")
             }
 
             const newAppointmentDate = new Date(appointmentDate)
 
             if(newAppointmentDate <= new Date()) {
-                throw new BadRequest("appointmentDate must be a future date")
+                throw new BadRequest("appointmentDate deve ser uma data futura")
             }
 
             let total:number = 0
 
             const productsListVerify = products.map( async (product: any): Promise<void>=> {
                 if (typeof product.quantity !== "number") {
-                    throw new BadRequest("quantity must be a number")
+                    throw new BadRequest("quantity deve ser um número")
                 }
 
                 if(product.quantity <= 0) {
-                    throw new BadRequest("quantity must be greater than 0")
+                    throw new BadRequest("quantity deve ser maior que 0")
                 }
 
                 const verifyProduct = await this.productsDatabase.selectProductById({id: product.id})
 
                 if(!verifyProduct.length) {
-                    throw new NotFound(`Product with id ${product.id} not found`)
+                    throw new NotFound(`Produto com id ${product.id} não encontrado`)
                 }
 
                 if (verifyProduct[0].qty_stock === 0) {
-                    throw new BadRequest(`Product with id ${product.id} and name ${verifyProduct[0].name} is out of stock`)
+                    throw new BadRequest(`${verifyProduct[0].name} está esgotado`)
                 }
 
                 if (verifyProduct[0].qty_stock < product.quantity) {
-                    throw new BadRequest(`Product with id ${product.id} has only ${verifyProduct[0].qty_stock} in stock`)
+                    throw new BadRequest(`${verifyProduct[0].name} possui apenas ${verifyProduct[0].qty_stock} unidades em estoque`)
                 }
 
                 total += verifyProduct[0].price * product.quantity

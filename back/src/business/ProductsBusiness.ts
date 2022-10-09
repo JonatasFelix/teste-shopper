@@ -66,13 +66,13 @@ export class ProductsBusiness {
     public getProductById = async(id: number): Promise<any> => {
 
         if(isNaN(id)) {
-            throw new BadRequest("Invalid id")
+            throw new BadRequest("id inválido")
         }
 
         const product = await this.productsDatabase.selectProductById({id})
 
         if(!product.length) {
-            throw new NotFound("Product not found")
+            throw new NotFound("Produto não encontrado")
         }
 
         const result: Product = Product.toProductModel(product[0])
