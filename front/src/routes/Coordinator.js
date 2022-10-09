@@ -11,3 +11,7 @@ export const homeNavigation = (navigate) => {
 export const searchNavigation = (navigate, search) => {
     navigate(`/?q=${search}`)
 }
+
+export const shoppingCartNavigation = (navigate) => {
+    navigate('/carrinho')
+}

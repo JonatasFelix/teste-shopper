@@ -48,10 +48,6 @@ export class OrdersBusiness {
             let total:number = 0
 
             const productsListVerify = products.map( async (product: any): Promise<void>=> {
-                if (typeof product.id !== "number") {
-                    throw new BadRequest("id must be a number")
-                }
-
                 if (typeof product.quantity !== "number") {
                     throw new BadRequest("quantity must be a number")
                 }

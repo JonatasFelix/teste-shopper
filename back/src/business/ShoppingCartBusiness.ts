@@ -16,7 +16,7 @@ export class ShoppingCartBusiness {
         const productId = input.productId
 
         if(isNaN(productId)) {
-            throw new BadRequest("id must be a number")
+            throw new BadRequest("quantityStock")
         }
 
         const inputSelectProduct: ISelectPrductDTO = { id: productId }

@@ -1,0 +1,50 @@
+import styled from "styled-components";
+
+export const Container = styled.div`
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(239,241,245,0.64);
+    z-index: 5;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+`
+
+export const Box = styled.div`
+    width: 330px;
+    height: 280px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0px 0px 14px 8px rgb(0 0 0 / 40%);
+
+    @media (min-width: 600px) {
+        width: 415px;
+        height: 300px;
+    }
+
+`
+
+export const SaveName = styled.form`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+`
+
+export const Input = styled.input``
+
+export const Button = styled.button``
+
+export const DisplayNone = styled.div`
+    display: none;
+`

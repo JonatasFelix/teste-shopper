@@ -3,8 +3,4 @@ import { BASE_URL } from "../constants/BASE_URL";
 
 export const deleteProductShoppingCart = async (productId) => {
    await axios.delete(`${BASE_URL}/shoppingCart/${productId}`)
-    .then((response) => {
-    })
-    .catch((error) => {
-    })
 }
