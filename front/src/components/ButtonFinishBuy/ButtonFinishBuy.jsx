@@ -57,7 +57,7 @@ const ButtonFinishBuy = ({ date, setters, states, setError }) => {
                 await deleteAllProductsShoppingCart()   // REQUISIÇÃO DE LIMPAR O CARRINHO
                 toast.success("Compra realizada com sucesso")   // TOAST DE SUCESSO
             })
-            .catch(() => toast.error("Erro ao realizar pedido!"))   // TOAST DE ERRO SE A REQUISIÇÃO NÃO FOR BEM SUCEDIDA
+            .catch((err) => toast.error(`${err.message}`))   // TOAST DE ERRO SE A REQUISIÇÃO NÃO FOR BEM SUCEDIDA
 
         await getShoppingCartList(setLoaderCart, setShoppingCart, setCartError)  // REQUISIÇÃO DE LISTAR O CARRINHO
         setError(false)     // SETA O ERRO DE DATA DE AGENDAMENTO COMO FALSE

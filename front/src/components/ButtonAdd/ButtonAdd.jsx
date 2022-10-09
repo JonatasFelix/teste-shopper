@@ -20,7 +20,7 @@ const ButtonAdd = ({ productId, setShoppingCart, setLoaderCart, setCartError }) 
         setLoading(true);
         await postProductInShoppingCart(productId)                              // FAZ A REQUISIÇÃO PARA ADICIONAR O PRODUTO NO CARRINHO
             .then(() => toast.success("Produto adicionado com sucesso!"))       // SE A REQUISIÇÃO FOR BEM SUCEDIDA, MOSTRA UMA MENSAGEM DE SUCESSO
-            .catch(() => toast.error("Não foi possível adicionar o produto!"))  // SE A REQUISIÇÃO NÃO FOR BEM SUCEDIDA, MOSTRA UMA MENSAGEM DE ERRO
+            .catch((err) => toast.error(`${err.message}`))  // SE A REQUISIÇÃO NÃO FOR BEM SUCEDIDA, MOSTRA UMA MENSAGEM DE ERRO
             
         await getShoppingCartList(setLoaderCart, setShoppingCart, setCartError); // FAZ A REQUISIÇÃO PARA ATUALIZAR O CARRINHO NA TELA
         setLoading(false);

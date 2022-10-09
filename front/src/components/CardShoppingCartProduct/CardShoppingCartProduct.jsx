@@ -6,8 +6,8 @@ import { deleteProductShoppingCart } from "../../services/deleteProductShoppingC
 import { BsTrash } from "react-icons/bs";
 import Loader from "../Loader/Loader";
 import { toast } from "react-toastify";
-import ModalQuantity from "../ModalQuantity/ModalQuantity";
 import ButtonUnavailable from "../ButtonUnavailable/ButtonUnavailable";
+import ModalQuantiyCartProduct from "../ModalQuantiyCartProduct/ModalQuantiyCartProduct";
 
 // CARD SHOPPING CART PRODUCT - RENDERIZA OS PRODUTOS DO CARRINHO DE COMPRAS DISPONÍVEIS E INDISPONÍVEIS
 // RECEBE COMO PROPRIEDADES O PRODUTO, OS ESTADOS E OS SETTERS
@@ -68,6 +68,15 @@ const CardShoppingCartProduct = ({ product, states, setters }) => {
             <s.Td>R$: {price}</s.Td>
             <s.Td style={{ position: "relative" }}>
             {product.quantityStock ? <ShowButtonLessAndMore /> : <ButtonUnavailable /> }
+            <ModalQuantiyCartProduct 
+                states={states}
+                setters={setters}
+                setClose={setOpenBox}
+                productId={product.productId}
+                open={openBox}
+                maxQuantity={product.quantityStock}
+                quantity={quantity}
+            />
             </s.Td>
             <s.Td>R$: {total}</s.Td>
             <s.Td
