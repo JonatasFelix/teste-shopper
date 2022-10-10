@@ -17,7 +17,7 @@ export interface IOrderInputDTO {
 export interface IInputOrder {
     userName: string,
     products: IProduct[],
-    appointmentDate: Date
+    appointmentDate: string
 }
 
 

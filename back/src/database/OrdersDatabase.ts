@@ -11,7 +11,7 @@ export class OrdersDatabase extends BaseDatabase {
             .into(OrdersDatabase.TABLE_ORDERS)
     }
 
-    public insertProductOrder = async(data: IOrderInputDTO): Promise<any> => {
+    public insertProductOrder = async(data: IOrderInputDTO): Promise<void> => {
         await BaseDatabase.connection
             .insert(data)
             .into(OrdersDatabase.TABLE_ORDER_ITEMS)

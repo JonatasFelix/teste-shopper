@@ -2,7 +2,7 @@ import app from './controller/app'
 
 import { shoppingCartRouter } from './router/shoppingCartRouter'
 import { ordersRouter } from './router/ordersRouter'
-import { productsRouter } from './router/ProductsRouter'
+import { productsRouter } from './router/productsRouter'
 
 
 app.use("/shoppingCart", shoppingCartRouter)

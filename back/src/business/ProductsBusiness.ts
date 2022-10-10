@@ -9,7 +9,7 @@ export class ProductsBusiness {
         private productsDatabase: ProductsDatabase
     ) { }
 
-    public getProducts = async (input: IInputProducList): Promise<IOutputProductList | []> => {
+    public getProducts = async (input: IInputProducList): Promise<[] | IOutputProductList> => {
 
         let { productName, page, quantity, order, sort } = input
 

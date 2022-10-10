@@ -34,7 +34,7 @@ export class ProductsDatabase extends BaseDatabase {
         return product
     }
 
-    public updateProductQuantity = async(input: IInputChangeProductQuantityDTO): Promise<any> => {
+    public updateProductQuantity = async(input: IInputChangeProductQuantityDTO): Promise<void> => {
         await BaseDatabase.connection
             .update({ qty_stock: input.quantity })
             .from(ProductsDatabase.TABLE_PRODUCTS)

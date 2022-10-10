@@ -10,7 +10,7 @@
         "esModuleInterop": true,
         "resolveJsonModule": true,
     },
-    "exclude": [
-        "./tests/*"
-    ]
+    // "exclude": [
+    //     "./tests/*"
+    // ]
 }
