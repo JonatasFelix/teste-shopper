@@ -215,4 +215,81 @@ describe("Teste OrdersBusiness", () => {
         }
     })
 
+    test("Teste getAllOrders", async () => {
+        expect.assertions(1)
+
+        const result = await ordersBusiness.getAllOrders()
+
+        expect(result).toEqual([
+            {
+                id: "id",
+                userName: "Jonatas",
+                total: 100,
+                status: "completed",
+                orderDate: "2021-08-01",
+                appointmentDate: new Date("2021-08-01T00:00:00.000Z"),
+            }
+        ])
+    });
+
+
+
+// getOrderDetailsById 
+
+    test("Teste getOrderDetailsById", async () => {
+        expect.assertions(1)
+
+        const result = await ordersBusiness.getOrderDetailsById("id")
+
+        expect(result).toEqual({
+            id: "id",
+            userName: "Jonatas",
+            total: 100,
+            status: "completed",
+            orderDate: "2021-08-01",
+            appointmentDate: new Date("2021-08-01T00:00:00.000Z"),
+            products: [
+                {
+                    productId: "id",
+                    name: "name",
+                    quantity: 1
+                }
+            ]
+        })
+    });
+
+
+    test("Teste getOrderDetailsById, erro de id é obrigatorio", async () => {
+        expect.assertions(2)
+
+        try {
+            await ordersBusiness.getOrderDetailsById("")
+        } catch (error) {
+            expect(error.statusCode).toBe(422)
+            expect(error.message).toEqual("id é obrigatório")
+        }
+    });
+
+    test("Teste getOrderDetailsById, erro de id deve ser uma string", async () => {
+        expect.assertions(2)
+
+        try {
+            await ordersBusiness.getOrderDetailsById(1 as unknown as string)
+        } catch (error) {
+            expect(error.statusCode).toBe(400)
+            expect(error.message).toEqual("id deve ser uma string")
+        }
+    });
+
+    test("Teste getOrderDetailsById, erro de Pedido não encontrado", async () => {
+        expect.assertions(2)
+
+        try {
+            await ordersBusiness.getOrderDetailsById("id2")
+        } catch (error) {
+            expect(error.statusCode).toBe(404)
+            expect(error.message).toEqual("Pedido não encontrado")
+        }
+    });
+
 });
