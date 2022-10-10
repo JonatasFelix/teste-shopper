@@ -48,7 +48,7 @@ export class ShoppingCartDatabase extends BaseDatabase {
             .into(ShoppingCartDatabase.TABLE_SHOPPING_CART)
     }
 
-    public deleteAllProducts = async(): Promise<any> => {
+    public deleteAllProducts = async(): Promise<void> => {
         await BaseDatabase.connection
             .delete()
             .from(ShoppingCartDatabase.TABLE_SHOPPING_CART)
