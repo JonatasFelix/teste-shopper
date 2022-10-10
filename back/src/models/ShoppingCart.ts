@@ -42,7 +42,7 @@ export interface IShoppingCartList {
 
 export class ShoppingCartProduct {
     constructor(
-        public productId: string,
+        public productId: number,
         public name: string,
         public price: number,
         public quantityStock: number,

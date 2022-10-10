@@ -15,7 +15,7 @@ export class ShoppingCartBusiness {
     public removeProduct = async (input: IRemoveProduct): Promise<boolean> => {
         const productId = input.productId
 
-        if(isNaN(productId)) {
+        if(isNaN(productId) || !productId) {
             throw new BadRequest("id é obrigatório")
         }
 
@@ -43,11 +43,11 @@ export class ShoppingCartBusiness {
         const productId = input.productId
         const quantity = input.quantity
 
-        if(isNaN(productId)) {
+        if(isNaN(productId) || !productId ) {
             throw new BadRequest("id é obrigatório")
         }
 
-        if(isNaN(quantity)) {
+        if((isNaN(quantity) || !quantity) && quantity !== 0) {
             throw new BadRequest("quantity é obrigatório")
         }
 
@@ -83,7 +83,7 @@ export class ShoppingCartBusiness {
 
         const productId = input.productId
 
-        if(isNaN(productId)) {
+        if(isNaN(productId) || !productId) {
             throw new BadRequest("id é obrigatório")
         }
 

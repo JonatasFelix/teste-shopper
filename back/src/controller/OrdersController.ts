@@ -13,7 +13,7 @@ export class OrdersController {
             const input: IInputOrder = {
                 userName: req.body.userName,
                 products: req.body.products,
-                appointmentDate: req.body.appointmentDate as Date
+                appointmentDate: req.body.appointmentDate
             }
 
             await this.ordersBusiness.createOrder(input)
@@ -25,8 +25,4 @@ export class OrdersController {
         }
 
     }
-
-
-
-
 }
