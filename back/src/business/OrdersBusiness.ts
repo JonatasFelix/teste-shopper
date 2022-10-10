@@ -3,7 +3,7 @@ import { ProductsDatabase } from "../database/ProductsDatabase";
 import BadRequest from "../errors/BadRequest";
 import MissingParameters from "../errors/MissingParameters";
 import NotFound from "../errors/NotFound";
-import { IInputOrder, IInputOrderDTO, OrderStatus } from "../models/Orders";
+import { IInputOrder, IInputOrderDTO, IOrder, IOrderDetails, IProductOrder, OrderStatus } from "../models/Orders";
 import { DateConversion } from "../services/DateConversion";
 import { IdGenerator } from "../services/IdGenerator";
 
@@ -100,4 +100,59 @@ export class OrdersBusiness {
 
             return true
     }
+
+    public getAllOrders = async(): Promise<IOrder | []> => {
+        const result =  await this.ordersDatabase.selectAllOrders()
+
+        if(!result.length) {
+            return []
+        }
+
+        const ordersPending: IProductOrder[] = result.filter(async(order: any, index: number): Promise<void> => {
+            if(order.status === "pending" && order.appointmentDate <= new Date()) {
+                result[index].status = OrderStatus.COMPLETED
+                await this.ordersDatabase.updateOrderStatus(order.id, OrderStatus.COMPLETED)
+            }
+        })
+
+        await Promise.all(ordersPending)
+
+        return result
+    }
+
+    public getOrderDetailsById = async(id: string): Promise<IOrderDetails> => {
+        if (!id) {
+            throw new MissingParameters("id é obrigatório")
+        }
+
+        if (typeof id !== "string") {
+            throw new BadRequest("id deve ser uma string")
+        }
+
+        const result = await this.ordersDatabase.selectOrderById(id)
+
+        if(!result.length) {
+            throw new NotFound("Pedido não encontrado")
+        }
+
+        const products: IProductOrder[] = await this.ordersDatabase.selectOrderDetails(id)
+
+        if(result[0].status === "pending" && result[0].appointmentDate <= new Date()) {
+            await this.ordersDatabase.updateOrderStatus(result[0].id, OrderStatus.COMPLETED)
+            result[0].status = OrderStatus.COMPLETED
+        }
+
+        const orderDetails: IOrderDetails = {
+            id: result[0].id,
+            userName: result[0].userName,
+            total: result[0].total,
+            status: result[0].status,
+            orderDate: result[0].orderDate,
+            appointmentDate: result[0].appointmentDate,
+            products: products
+        }
+
+        return orderDetails
+    }
 }
+

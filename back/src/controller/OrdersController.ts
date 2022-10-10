@@ -25,4 +25,28 @@ export class OrdersController {
         }
 
     }
+
+    public getAllOrders = async (req: Request, res: Response) => {
+        try {
+            const result = await this.ordersBusiness.getAllOrders()
+
+            res.status(200).send(result)
+
+        } catch (error) {
+            res.status(error.statusCode || 500).send({ error: error.message || error.sqlMessage })
+        }
+    }
+
+    public getOrderDetailsById = async (req: Request, res: Response) => {
+        try {
+            const id = req.params.id
+
+            const result = await this.ordersBusiness.getOrderDetailsById(id)
+
+            res.status(200).send(result)
+
+        } catch (error) {
+            res.status(error.statusCode || 500).send({ error: error.message || error.sqlMessage })
+        }
+    }
 }

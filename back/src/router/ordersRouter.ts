@@ -17,4 +17,6 @@ const ordersController = new OrdersController(
     )
 )
 
+ordersRouter.get("/all", ordersController.getAllOrders)
+ordersRouter.get("/details/:id", ordersController.getOrderDetailsById)
 ordersRouter.post("/", ordersController.createOrder)

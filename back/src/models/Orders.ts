@@ -30,6 +30,31 @@ export interface IInputOrderDTO {
     appointment_date: string
 }
 
+export interface IProductOrder {
+    productId: number,
+    quantity: number,
+    name: string,
+}
+
+export interface IOrderDetails {
+    id: string,
+    userName: string,
+    total: number,
+    status: OrderStatus,
+    orderDate: Date,
+    appointmentDate: string,
+    products: IProductOrder[]
+}
+
+export interface IOrder {
+    id: string,
+    userName: string,
+    total: number,
+    status: OrderStatus,
+    orderDate: Date,
+    appointmentDate: string,
+}
+
 export class Order {
     constructor(
         private id: string,
