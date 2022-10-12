@@ -9,7 +9,7 @@
 
 ### DEPLOY
 * Heroku => https://api-shoplife.herokuapp.com/
-* Documentação => ***
+* Documentação => https://documenter.getpostman.com/view/19882336/2s83zdw6mx
 
 ### MODELAGEM DO BANCO - MYSQL
 <section align="center" id="Modelagem">
