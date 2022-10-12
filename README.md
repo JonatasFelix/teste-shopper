@@ -13,6 +13,10 @@ https://shop-life.surge.sh/
 https://api-shoplife.herokuapp.com/
 * Figma => https://www.figma.com/file/JijKkrD1jtLCDXDvCOoXEk/Untitled?node-id=0%3A1
 
+---
+#### ACESSE A PASTA   📂[FRONT](https://github.com/JonatasFelix/teste-shopper/tree/master/front) OU   📂[BACK](https://github.com/JonatasFelix/teste-shopper/tree/master/back) PARA MAIS INFORMAÇÕES SOBRE CADA STACK
+---
+
 ### Tecnologias
 * Front
   * React
@@ -32,3 +36,43 @@ https://api-shoplife.herokuapp.com/
   * Mysql
   * Uuid
   * Jest - Para Realizar os testes
+  
+
+### COMO RODAR O PROJETO EM SUA MAQUINA
+### COMEÇAMOS PELO BACK
+```
+COMANDOS:
+
+git clone https://github.com/JonatasFelix/teste-shopper.git
+cd teste-shopper
+cd back
+npm  i
+```
+```
+.env.exemple
+Procure o arquivo.env.exemple na pasta back
+renomei para .env
+logo em seguia adicione as informações do seu banco de dados
+
+```
+
+```
+COMANDOS:
+npm run migrations
+npm run dev
+```
+
+### PRONTO VOCÊ JÁ TEM O BACK RODANDO EM SUA MÁQUINA
+### VAMOS PARA O FRONT
+
+```
+AINDA COM O TERMINAL ABERTO
+cd ..
+cd front
+npm i
+npm run start
+```
+
+### PRONTO, AGORA TODA A APLICAÇÃO ESTÁ RODANDO EM SUA MÁQUINA!
+
+
