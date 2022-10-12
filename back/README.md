@@ -3,6 +3,9 @@
      <h1 align="center">Back</h1>
 </section>
 
+<section align="center" id="cabecalho">
+   <h1>FOI UTILIZADA A ARQUITETURA MVC - COM POO</h1>
+</section>
 
 ### DEPLOY
 * Heroku => https://api-shoplife.herokuapp.com/
