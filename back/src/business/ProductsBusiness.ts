@@ -33,6 +33,7 @@ export class ProductsBusiness {
 
         const pages = Math.ceil(count / quantity)
 
+        // CASO SEJA PASSADO UM NÚMERO DE PÁGINA MAIOR QUE O TOTAL DE PÁGINAS
         if(page > pages) {
             page = pages
         }

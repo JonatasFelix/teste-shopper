@@ -16,6 +16,7 @@ export class ProductsDatabase extends BaseDatabase {
         return products
     }
 
+    // RETORNA A QUANTIDADE TOTAL DE PRODUTOS CADASTRADOS
     public selectCountProducts = async (search: string): Promise<any> => {
         const count = await BaseDatabase.connection
             .count("* as count")
@@ -34,6 +35,7 @@ export class ProductsDatabase extends BaseDatabase {
         return product
     }
 
+    // ALTERA A QUANTIDADE DE UM PRODUTO CADASTRADO
     public updateProductQuantity = async(input: IInputChangeProductQuantityDTO): Promise<void> => {
         await BaseDatabase.connection
             .update({ qty_stock: input.quantity })

@@ -27,8 +27,10 @@ export class ShoppingCartBusiness {
         }
 
         const inputSelectCart: ISelectCartPrductDTO = { id_product: productId }
+        // VERIFICA SE O PRODUTO ESTÁ NO CARRINHO
         const product = await this.shoppingCartDatabase.selectProduct(inputSelectCart)
 
+        // SE NÃO ESTIVER, RETORNA ERRO
         if(!product.length) {
             throw new NotFound("Este produto não está no carrinho")
         }
@@ -62,13 +64,16 @@ export class ShoppingCartBusiness {
             throw new NotFound("Produto não encontrado")
         }
 
+        // CASO A QUANTIDADE DESEJADA SEJA MAIOR QUE A DISPONÍVEL EM ESTOQUE RETORNA ERRO
         if(quantity > prdouctExists[0].qty_stock) {
             throw new BadRequest(`Quantidade em estoque insuficiente, temos apenas ${prdouctExists[0].qty_stock} unidades`)
         }
 
         const inputSelectCart: ISelectCartPrductDTO = { id_product: productId }
+        // VERIFICA SE O PRODUTO ESTÁ NO CARRINHO
         const product = await this.shoppingCartDatabase.selectProduct(inputSelectCart)
 
+        // SE NÃO ESTIVER, RETORNA ERRO
         if(!product.length) {
             throw new NotFound("Este produto não está no carrinho")
         }
@@ -95,12 +100,15 @@ export class ShoppingCartBusiness {
         }
 
         const inputSelectCart: ISelectCartPrductDTO = { id_product: productId }
+        // VERIFICA SE O PRODUTO ESTÁ NO CARRINHO
         const product = await this.shoppingCartDatabase.selectProduct(inputSelectCart)
 
+        // SE ESTIVER, RETORNA ERRO
         if(product.length) {
             throw new Conflict("Este produto já está no carrinho")
         }
 
+        // CASO A QUANTIDADE DESEJADA SEJA MAIOR QUE A DISPONÍVEL EM ESTOQUE RETORNA ERRO
         if(prdouctExists[0].qty_stock === 0) {
             throw new BadRequest("Produto indisponível")
         }
@@ -125,6 +133,7 @@ export class ShoppingCartBusiness {
         let totalValue = 0
         let totalQuantity = 0
 
+        // SEPARA OS PRODUTOS EM ESTOQUE E FORA DE ESTOQUE QUE ESTÃO NO CARRINHO
         products.forEach((product: ShoppingCartProduct) => {
             product = ShoppingCartProduct.toShoppingCartProductModel(product)
             if(product.quantityStock > 0) {
@@ -138,11 +147,17 @@ export class ShoppingCartBusiness {
 
         totalValue = Number(totalValue.toFixed(2))
 
-        const result: IShoppingCartList = { list: productsInStock, totalValue, totalQuantity, outStock: productsOutOfStock }
+        const result: IShoppingCartList = { 
+            list: productsInStock, 
+            totalValue, 
+            totalQuantity, 
+            outStock: productsOutOfStock 
+        }
 
         return result
     }
 
+    // REMOVE TODOS OS PRODUTOS DO CARRINHO
     public clearCart = async (): Promise<boolean> => {
         await this.shoppingCartDatabase.deleteAllProducts()
         return true

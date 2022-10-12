@@ -4,6 +4,7 @@ import { BaseDatabase } from "./BaseDatabase"
 export class ShoppingCartDatabase extends BaseDatabase {
     public static TABLE_SHOPPING_CART = "shopping_cart"
 
+    // RETORNA TODOS OS PRODUTOS DO CARRINHO
     public async selectAllProducts(): Promise<any> {
         const products = await BaseDatabase.connection
             .select(
@@ -19,6 +20,7 @@ export class ShoppingCartDatabase extends BaseDatabase {
         return products
     }
 
+    // SELECT PARA VERIFICAR SE O PRODUTO JÁ ESTÁ NO CARRINHO
     public async selectProduct(data: ISelectCartPrductDTO): Promise<any> {
         const product = await BaseDatabase.connection
             .select("*")
@@ -28,6 +30,7 @@ export class ShoppingCartDatabase extends BaseDatabase {
         return product
     }
 
+    // REMOVE UM PRODUTO DO CARRINHO
     public async deleteProduct(data: IRemoveProductDTO): Promise<void> {
         await BaseDatabase.connection
             .delete()
@@ -35,6 +38,7 @@ export class ShoppingCartDatabase extends BaseDatabase {
             .where(data)
     }
 
+    // ALTERA A QUANTIDADE DE UM PRODUTO CADASTRADO
     public async updateProduct(data: IUpdateProductQuantityDTO): Promise<void> {
         await BaseDatabase.connection
             .update({ quantity: data.quantity })
@@ -42,12 +46,14 @@ export class ShoppingCartDatabase extends BaseDatabase {
             .where({ id_product: data.id_product })
     }
 
+    // ADICIONA UM PRODUTO AO CARRINHO
     public async insertProduct(data: IAddProductCartDTO): Promise<void> {
         await BaseDatabase.connection
             .insert(data)
             .into(ShoppingCartDatabase.TABLE_SHOPPING_CART)
     }
 
+    // REMOVE TODOS OS PRODUTOS DO CARRINHO
     public deleteAllProducts = async(): Promise<void> => {
         await BaseDatabase.connection
             .delete()

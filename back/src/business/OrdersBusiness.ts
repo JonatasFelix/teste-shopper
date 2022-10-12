@@ -47,6 +47,7 @@ export class OrdersBusiness {
 
             let total:number = 0
 
+            // VERIFICANDO SE OS OS DAOOS DOS PRODUTOS ESTÃO CORRETOS - SE O PRODUTO EXISTE E SE POSSUI ESTOQUE
             const productsListVerify = products.map( async (product: any): Promise<void>=> {
                 if (typeof product.quantity !== "number") {
                     throw new BadRequest("quantity deve ser um número")
@@ -89,6 +90,8 @@ export class OrdersBusiness {
             
             await this.ordersDatabase.insertOrder(order)
 
+            // MAP PARA ADICIONAR O PRODUTO NA TABELA DE VENDAS
+            // E REMOVER A QUANTIDADE DE PRODUTOS DO ESTOQUE
             const productsList = products.map( async (product: any): Promise<void> => {
                 const result = await this.productsDatabase.selectProductById({id: product.id})
                 await this.productsDatabase.updateProductQuantity({id: result[0].id, quantity: result[0].qty_stock - product.quantity})
@@ -108,6 +111,8 @@ export class OrdersBusiness {
             return []
         }
 
+        // CASO TENHA RESULTADO, É FEITO UM FILTER PARA VERIFICAR SE O APPOINTMENT_DATE MENOR OU IGUAL QUE A DATA ATUAL
+        // CASO SEJA TROCA O STATUS PARA "CONCLUÍDO"
         const ordersPending: IProductOrder[] = result.filter(async(order: any, index: number): Promise<void> => {
             if(order.status === "pending" && order.appointmentDate <= new Date()) {
                 result[index].status = OrderStatus.COMPLETED
@@ -136,7 +141,8 @@ export class OrdersBusiness {
         }
 
         const products: IProductOrder[] = await this.ordersDatabase.selectOrderDetails(id)
-
+         // CASO TENHA RESULTADO, É FEITO UMA CONDIÇÃO PARA VERIFICAR SE O APPOINTMENT_DATE MENOR OU IGUAL QUE A DATA ATUAL
+        // CASO SEJA TROCA O STATUS PARA "CONCLUÍDO"
         if(result[0].status === "pending" && result[0].appointmentDate <= new Date()) {
             await this.ordersDatabase.updateOrderStatus(result[0].id, OrderStatus.COMPLETED)
             result[0].status = OrderStatus.COMPLETED
