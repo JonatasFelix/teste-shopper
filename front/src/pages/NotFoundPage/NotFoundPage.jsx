@@ -1,11 +1,15 @@
 import Header from "../../components/Header/Header";
+import ImgNotFound from "../../assets/imgs/not-found.png";
+import * as s from "./styles";
 
 const NotFoundPage = () => {
     return (
         <div>
             <Header />
-            <h1>404</h1>
-            <p>Page not found</p>
+            <s.ContainerImg>
+                <s.Img src={ImgNotFound} alt="Not Found" />
+            </s.ContainerImg>
+            
         </div>
     )
 };
