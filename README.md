@@ -9,9 +9,13 @@ A ShopLifer é uma aplicação fictícia que simula uma loja virtual, onde o usu
 ### Como acessar a aplicação
 * Front-End =>
 https://shop-life.surge.sh/
+* Figma => https://www.figma.com/file/JijKkrD1jtLCDXDvCOoXEk/Untitled?node-id=0%3A1
+<br>
+
 *  Back-End =>
 https://api-shoplife.herokuapp.com/
-* Figma => https://www.figma.com/file/JijKkrD1jtLCDXDvCOoXEk/Untitled?node-id=0%3A1
+* Documentação => https://documenter.getpostman.com/view/19882336/2s83zdw6mx
+
 
 ---
 #### ACESSE A PASTA   📂[FRONT](https://github.com/JonatasFelix/teste-shopper/tree/master/front) OU   📂[BACK](https://github.com/JonatasFelix/teste-shopper/tree/master/back) PARA MAIS INFORMAÇÕES SOBRE CADA STACK
