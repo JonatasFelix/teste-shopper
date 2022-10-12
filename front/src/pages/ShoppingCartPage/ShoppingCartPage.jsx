@@ -38,7 +38,7 @@ const ShoppingCart = () => {
                         <s.Th>Nome</s.Th>
                         <s.Th>Preço</s.Th>
                         <s.Th>Quantidade</s.Th>
-                        <s.Th>Total</s.Th>
+                        <s.Th id="mobile">Total</s.Th>
                         <s.Th>Remover</s.Th>
                     </tr>
                 </thead>

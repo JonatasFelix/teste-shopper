@@ -19,6 +19,11 @@ export const Container = styled.main`
 export const Table = styled.table`
     border-collapse: collapse;
     width: 100%;
+    #mobile {
+        @media (max-width: 580px) {
+            display: none;
+        }
+    }
 `
 
 export const Th = styled.th`

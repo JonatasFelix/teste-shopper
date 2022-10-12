@@ -78,7 +78,7 @@ const CardShoppingCartProduct = ({ product, states, setters }) => {
                 quantity={quantity}
             />
             </s.Td>
-            <s.Td>R$: {total}</s.Td>
+            <s.Td id="mobile">R$: {total}</s.Td>
             <s.Td
                 title="Remover"
                 style={{ textAlign: "center", position: "relative" }}
