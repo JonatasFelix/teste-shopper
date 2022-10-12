@@ -17,6 +17,12 @@ https://api-shoplife.herokuapp.com/
 #### ACESSE A PASTA   📂[FRONT](https://github.com/JonatasFelix/teste-shopper/tree/master/front) OU   📂[BACK](https://github.com/JonatasFelix/teste-shopper/tree/master/back) PARA MAIS INFORMAÇÕES SOBRE CADA STACK
 ---
 
+<section align="center" id="diagrama">
+    <h1>Diagrama</h1>
+    <img align="center" src="https://user-images.githubusercontent.com/20983673/195336114-903e45ad-8005-43c4-9a58-026302b597b7.png" alt="diagrama" />
+</section>
+
+
 ### Tecnologias
 * Front
   * React
