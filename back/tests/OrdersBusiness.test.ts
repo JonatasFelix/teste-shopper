@@ -1,9 +1,11 @@
 import { OrdersBusiness } from "../src/business/OrdersBusiness";
-import { IInputOrder, IProduct } from "../src/models/Orders";
+import { IInputOrder, IProduct, OrderStatus } from "../src/models/Orders";
 import { OrdersDatabaseMock } from "./mocks/OrdersDatabaseMock";
 import { ProductsDatabaseMock } from "./mocks/ProductsDatabaseMock";
+import { AuthenticatorMock } from "./mocks/services/AuthenticatorMock";
 import { DateConversionMock } from "./mocks/services/DateConversionMock";
 import { IdGeneratorMock } from "./mocks/services/IdGeneratorMock";
+import { UsersDataBaseMock } from "./mocks/UserDatabaseMock";
 
 
 describe("Teste OrdersBusiness", () => {
@@ -11,14 +13,16 @@ describe("Teste OrdersBusiness", () => {
         new OrdersDatabaseMock(),
         new ProductsDatabaseMock(),
         new IdGeneratorMock(),
-        new DateConversionMock()
+        new DateConversionMock(),
+        new AuthenticatorMock(),
+        new UsersDataBaseMock()
     )
      
     test("Teste de criação de pedido", async () => {
         expect.assertions(1)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "valid_token",
             products: [{id: 1, quantity: 1}, {id: 2, quantity: 2}], 
             appointmentDate: "2023-08-01"
         }
@@ -27,38 +31,88 @@ describe("Teste OrdersBusiness", () => {
         expect(result).toEqual(true)
     })
 
-
-    test("Teste de erro, parametros faltando", async () => {
+    test("Teste de criação de pedido sem token", async () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "", 
             products: [{id: 1, quantity: 1}, {id: 2, quantity: 2}], 
-            appointmentDate: ""
-        }
+            appointmentDate: "2023-08-01"
+        } 
 
         try {
             await ordersBusiness.createOrder(input)
         } catch (error) {
             expect(error.statusCode).toBe(422)
-            expect(error.message).toEqual("userName, products, appointmentDate são obrigatórios")
+            expect(error.message).toEqual("token é obrigatório")
         }
     })
 
-    test("Teste de erro, userName não é string", async () => {
+    test("Teste de criação de pedido com token valido mas usuário não encontrado", async () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: 1, 
+            token: "valid-token-noUser", 
             products: [{id: 1, quantity: 1}, {id: 2, quantity: 2}], 
             appointmentDate: "2023-08-01"
-        } as unknown as IInputOrder
+        } 
+
+        try {
+            await ordersBusiness.createOrder(input)
+        } catch (error) {
+            expect(error.statusCode).toBe(401)
+            expect(error.message).toEqual("Usuário não encontrado")
+        }
+    })
+
+    test("Teste de criação de pedido sem endereço cadastrado", async () => {
+        expect.assertions(2)
+
+        const input: IInputOrder = {
+            token: "noAddress_token", 
+            products: [{id: 1, quantity: 1}, {id: 2, quantity: 2}], 
+            appointmentDate: "2023-08-01"
+        } 
+
+        try {
+            await ordersBusiness.createOrder(input)
+        } catch (error) {
+            expect(error.statusCode).toBe(401)
+            expect(error.message).toEqual("Usuário não possui endereço cadastrado")
+        }
+    })
+
+    test("Teste de criação de pedido com token inválido", async () => {
+        expect.assertions(2)
+
+        const input: IInputOrder = {
+            token: "invalid_token", 
+            products: [{id: 1, quantity: 1}, {id: 2, quantity: 2}], 
+            appointmentDate: "2023-08-01"
+        } 
+
+        try {
+            await ordersBusiness.createOrder(input)
+        } catch (error) {
+            expect(error.statusCode).toBe(401)
+            expect(error.message).toEqual("Token inválido")
+        }
+    })
+
+    test("Teste de criação de pedido com a quantidade do produto invalida", async () => {
+        expect.assertions(2)
+
+        const input: IInputOrder = {
+            token: "valid_token", 
+            products: [{id: 1, quantity: "a" as unknown as number}, {id: 2, quantity: 2}], 
+            appointmentDate: "2023-08-01"
+        } 
 
         try {
             await ordersBusiness.createOrder(input)
         } catch (error) {
             expect(error.statusCode).toBe(400)
-            expect(error.message).toEqual("userName deve ser uma string")
+            expect(error.message).toEqual("quantity deve ser um número")
         }
     })
 
@@ -66,7 +120,7 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "valid_token", 
             products: 1, 
             appointmentDate: "2023-08-01"
         } as unknown as IInputOrder
@@ -83,7 +137,7 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "valid_token", 
             products: [{id: 1, quantity: 1}, {id: 2, quantity: 2}], 
             appointmentDate: 1
         } as unknown as IInputOrder
@@ -100,7 +154,7 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "valid_token", 
             products: [{id: 1, quantity: 1}, {id: 2, quantity: 2}], 
             appointmentDate: "bolinha12312:00:00"
         }
@@ -117,7 +171,7 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "valid_token", 
             products: [{id: 1, quantity: 1}, {id: 2, quantity: 2}], 
             appointmentDate: "2020-08-01"
         }
@@ -130,28 +184,11 @@ describe("Teste OrdersBusiness", () => {
         }
     })
 
-    test("Teste de erro, quantity não é um número", async () => {
-        expect.assertions(2)
-
-        const input: IInputOrder = {
-            userName: "Jonatas", 
-            products: [{id: 1, quantity: "1"}, {id: 2, quantity: 2}] as unknown as IProduct[], 
-            appointmentDate: "2023-08-01"
-        } as unknown as IInputOrder
-
-        try {
-            await ordersBusiness.createOrder(input)
-        } catch (error) {
-            expect(error.statusCode).toBe(400)
-            expect(error.message).toEqual("quantity deve ser um número")
-        }
-    })
-
     test("Teste de erro, quantity é menor ou igual a zero", async () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "valid_token",
             products: [{id: 1, quantity: 0}, {id: 2, quantity: 2}], 
             appointmentDate: "2023-08-01"
         }
@@ -168,7 +205,7 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "valid_token",
             products: [{id: 3, quantity: 1}, {id: 2, quantity: 2}], 
             appointmentDate: "2023-08-01"
         }
@@ -185,7 +222,7 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "valid_token",
             products: [{id: 4, quantity: 10}], 
             appointmentDate: "2023-08-01"
         }
@@ -202,7 +239,7 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         const input: IInputOrder = {
-            userName: "Jonatas", 
+            token: "valid_token", 
             products: [{id: 1, quantity: 30}], 
             appointmentDate: "2023-08-01"
         }
@@ -215,21 +252,86 @@ describe("Teste OrdersBusiness", () => {
         }
     })
 
+// getAllOrders 
+
     test("Teste getAllOrders", async () => {
         expect.assertions(1)
 
-        const result = await ordersBusiness.getAllOrders()
+        const result = await ordersBusiness.getAllOrders("valid_token",)
 
         expect(result).toEqual([
             {
-                id: "id",
-                userName: "Jonatas",
+                id: "id1",
+                userName: "name",
                 total: 100,
-                status: "completed",
-                orderDate: "2021-08-01",
-                appointmentDate: new Date("2021-08-01T00:00:00.000Z"),
+                status: OrderStatus.PENDING,
+                orderDate: "2021-01-01",
+                appointmentDate: "2021-01-01"
             }
         ])
+    });
+
+
+    test("Teste getAllOrders, sem token", async () => {
+        expect.assertions(2)
+
+        const token = ""
+
+        try {
+            await ordersBusiness.getAllOrders(token)
+        } catch (error) {
+            expect(error.statusCode).toBe(422)
+            expect(error.message).toEqual("token é obrigatório")
+        
+        }
+    });
+
+    test("Teste getAllOrders, token inválido", async () => {
+        expect.assertions(2)
+
+        const token = "invalid_token"
+
+        try {
+            await ordersBusiness.getAllOrders(token)
+        } catch (error) {
+            expect(error.statusCode).toBe(401)
+            expect(error.message).toEqual("Token inválido")
+        }
+    });
+
+
+    test("Teste getAllOrders, token valido mas usuário não encontrado", async () => {
+        expect.assertions(2)
+
+        const token = "valid-token-noUser"
+
+        try {
+            await ordersBusiness.getAllOrders(token)
+        } catch (error) {
+            expect(error.statusCode).toBe(401)
+            expect(error.message).toEqual("Usuário não encontrado")
+        }
+    });
+
+    test("Teste getAllOrders, usuario sem endereço", async () => {
+        expect.assertions(2)
+
+        const token = "noAddress_token"
+
+        try {
+            await ordersBusiness.getAllOrders(token)
+        } catch (error) {
+            expect(error.statusCode).toBe(401)
+            expect(error.message).toEqual("Usuário não possui endereço cadastrado")
+        }
+    });
+
+    test("Teste getAllOrders, usuario sem compras", async () => {
+        const token = "noBuys_token"
+
+        const rexult = await ordersBusiness.getAllOrders(token)
+
+        expect(rexult).toEqual([])
     });
 
 
@@ -239,19 +341,19 @@ describe("Teste OrdersBusiness", () => {
     test("Teste getOrderDetailsById", async () => {
         expect.assertions(1)
 
-        const result = await ordersBusiness.getOrderDetailsById("id")
+        const result = await ordersBusiness.getOrderDetailsById({token: "valid_token", id: "id1"})
 
         expect(result).toEqual({
-            id: "id",
-            userName: "Jonatas",
+            id: "id1",
+            userName: "name",
             total: 100,
-            status: "completed",
-            orderDate: "2021-08-01",
-            appointmentDate: new Date("2021-08-01T00:00:00.000Z"),
+            status: "pending",
+            orderDate: "2021-01-01",
+            appointmentDate: "2021-01-01",
             products: [
                 {
-                    productId: "id",
-                    name: "name",
+                    price: 100,
+                    productName: "name",
                     quantity: 1
                 }
             ]
@@ -263,7 +365,7 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         try {
-            await ordersBusiness.getOrderDetailsById("")
+            await ordersBusiness.getOrderDetailsById({token: "valid_token", id: ""})
         } catch (error) {
             expect(error.statusCode).toBe(422)
             expect(error.message).toEqual("id é obrigatório")
@@ -274,7 +376,10 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         try {
-            await ordersBusiness.getOrderDetailsById(1 as unknown as string)
+            await ordersBusiness.getOrderDetailsById({
+                token: "valid_token", 
+                id:1 as unknown as string
+            })
         } catch (error) {
             expect(error.statusCode).toBe(400)
             expect(error.message).toEqual("id deve ser uma string")
@@ -285,10 +390,69 @@ describe("Teste OrdersBusiness", () => {
         expect.assertions(2)
 
         try {
-            await ordersBusiness.getOrderDetailsById("id2")
+            await ordersBusiness.getOrderDetailsById({
+                token: "valid_token", 
+                id: "id2"
+            })
         } catch (error) {
             expect(error.statusCode).toBe(404)
             expect(error.message).toEqual("Pedido não encontrado")
+        }
+    });
+
+    test("Teste getOrderDetailsById, erro de token é obrigatorio", async () => {
+        expect.assertions(2)
+
+        try {
+            await ordersBusiness.getOrderDetailsById({
+                token: "", 
+                id: "id2"
+            })
+        } catch (error) {
+            expect(error.statusCode).toBe(422)
+            expect(error.message).toEqual("token é obrigatório")
+        }
+    });
+
+    test("Teste getOrderDetailsById, erro de token invalido", async () => {
+        expect.assertions(2)
+
+        try {
+            await ordersBusiness.getOrderDetailsById({
+                token: "invalid_token", 
+                id: "id2"
+            })
+        } catch (error) {
+            expect(error.statusCode).toBe(401)
+            expect(error.message).toEqual("Token inválido")
+        }
+    });
+
+    test("Teste getOrderDetailsById, erro de usuario não encontrado", async () => {
+        expect.assertions(2)
+
+        try {
+            await ordersBusiness.getOrderDetailsById({
+                token: "valid-token-noUser", 
+                id: "id2"
+            })
+        } catch (error) {
+            expect(error.statusCode).toBe(401)
+            expect(error.message).toEqual("Usuário não encontrado")
+        }
+    });
+
+    test("Teste getOrderDetailsById, erro de usuario sem endereço", async () => {
+        expect.assertions(2)
+
+        try {
+            await ordersBusiness.getOrderDetailsById({
+                token: "noAddress_token", 
+                id: "id2"
+            })
+        } catch (error) {
+            expect(error.statusCode).toBe(401)
+            expect(error.message).toEqual("Usuário não possui endereço cadastrado")
         }
     });
 

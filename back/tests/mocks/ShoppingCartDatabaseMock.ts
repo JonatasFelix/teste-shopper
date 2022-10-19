@@ -66,12 +66,12 @@ export class ShoppingCartDatabaseMock {
     }
 
     public async selectProduct(data: ISelectCartPrductDTO): Promise<any> {
-        const id = data.id_product
+        const id = data.product_id
 
         if (id === 1) {
             return [
                 {
-                    id_product: 1,
+                    product_id: 1,
                     quantity: 1
                 }
             ]

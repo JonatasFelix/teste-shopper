@@ -4,12 +4,6 @@ export const Container = styled.tr`
     :nth-child(even) {
         background-color: #f2f2f2;
     }
-
-    #mobile {
-        @media (max-width: 580px) {
-            display: none;
-        }
-    }
 `
 
 export const Td = styled.td`

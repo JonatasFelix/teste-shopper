@@ -10,12 +10,13 @@ export interface IProduct {
 
 export interface IOrderInputDTO {
     order_id: string,
+    user_id: string,
     product_id: number,
     qty: number,
 }
 
 export interface IInputOrder {
-    userName: string,
+    token: string,
     products: IProduct[],
     appointmentDate: string
 }
@@ -23,7 +24,7 @@ export interface IInputOrder {
 
 export interface IInputOrderDTO {
     id: string,
-    user_name: string,
+    user_id: string,
     total: number,
     status: OrderStatus,
     order_date: Date,
@@ -55,31 +56,23 @@ export interface IOrder {
     appointmentDate: string,
 }
 
-export class Order {
-    constructor(
-        private id: string,
-        private user_name: string,
-        private total: number,
-        private status: OrderStatus,
-        private order_date: Date,
-        private appointment_date: Date
-    ) { }
 
-    public getId = () => this.id
-    public getUserName = () => this.user_name
-    public getTotal = () => this.total
-    public getStatus = () => this.status
-    public getOrderDate = () => this.order_date
-    public getAppointmentDate = () => this.appointment_date
+export interface IOrderDto {
+    id: string,
+    user_name: string,
+    total: number,
+    status: OrderStatus,
+    order_date: Date,
+    appointment_date: string,
+}
 
-    public setId = (newId: string) => { this.id = newId }
-    public setUserName = (newUserName: string) => { this.user_name = newUserName }
-    public setTotal = (newTotal: number) => { this.total = newTotal }
-    public setStatus = (newStatus: OrderStatus) => { this.status = newStatus }
-    public setOrderDate = (newOrderDate: Date) => { this.order_date = newOrderDate }
-    public setAppointmentDate = (newAppointmentDate: Date) => { this.appointment_date = newAppointmentDate }
 
-    public static toOrderModel = (order: any): Order => {
-        return new Order(order.id, order.user_name, order.total, order.status, order.order_date, order.appointment_date)
-    }
+export interface IUpdateOrderStatus {
+    id: string,
+    status: OrderStatus
+}
+
+export interface IInputOrderDetails {
+    id: string,
+    token: string
 }

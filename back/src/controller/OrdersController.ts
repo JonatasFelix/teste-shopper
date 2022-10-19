@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { OrdersBusiness } from "../business/OrdersBusiness"
-import { IInputOrder } from "../models/Orders"
+import { IInputOrder, IInputOrderDetails } from "../models/Orders"
 
 
 export class OrdersController {
@@ -11,7 +11,7 @@ export class OrdersController {
     public createOrder = async (req: Request, res: Response) => {
         try {
             const input: IInputOrder = {
-                userName: req.body.userName,
+                token: req.headers.authorization as string,
                 products: req.body.products,
                 appointmentDate: req.body.appointmentDate
             }
@@ -28,7 +28,9 @@ export class OrdersController {
 
     public getAllOrders = async (req: Request, res: Response) => {
         try {
-            const result = await this.ordersBusiness.getAllOrders()
+            const token = req.headers.authorization as string
+
+            const result = await this.ordersBusiness.getAllOrders(token)
 
             res.status(200).send(result)
 
@@ -39,9 +41,12 @@ export class OrdersController {
 
     public getOrderDetailsById = async (req: Request, res: Response) => {
         try {
-            const id = req.params.id
+            const input: IInputOrderDetails = {
+                id: req.params.id,
+                token: req.headers.authorization as string
+            }
 
-            const result = await this.ordersBusiness.getOrderDetailsById(id)
+            const result = await this.ordersBusiness.getOrderDetailsById(input)
 
             res.status(200).send(result)
 

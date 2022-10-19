@@ -13,6 +13,7 @@ export interface ISelectPrductDTO {
 }
 
 export interface IInputProducList {
+    token?: string
     productName: string,
     page: number,
     quantity: number,

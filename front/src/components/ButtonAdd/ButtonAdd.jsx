@@ -1,32 +1,24 @@
 import * as s from "./styles";
 import { useState } from "react";
-import { postProductInShoppingCart } from "../../services/postProductInShoppingCart";
-import { getShoppingCartList } from "../../services/getShoppingCartList";
+import { postProductInShoppingCart } from "../../services/ShoppingCart/postProductInShoppingCart";
+import { getShoppingCartList } from "../../services/ShoppingCart/getShoppingCartList";
 import Loader from "../Loader/Loader";
 import { toast } from "react-toastify";
 
-// BUTTON ADD - RECEBE:
-// productId: ID DO PRODUTO
-// setShoppingCart: FUNÇÃO QUE ATUALIZA O ESTADO DO CARRINHO -- GLOBAL CONTEXT --
-// setLoaderCart: FUNÇÃO QUE ATUALIZA O ESTADO DO LOADER DO CARRINHO -- GLOBAL CONTEXT --
-// setCartError: FUNÇÃO QUE ATUALIZA O ESTADO DO ERRO DO CARRINHO -- GLOBAL CONTEXT --
+const ButtonAdd = ({ productId, setShoppingCart, setLoaderCart, setCartError, token }) => {
 
-const ButtonAdd = ({ productId, setShoppingCart, setLoaderCart, setCartError }) => {
+    const [loading, setLoading] = useState(false); 
 
-    const [loading, setLoading] = useState(false); // LOADING
-
-    // FUNÇÃO QUE ADICIONA O PRODUTO NO CARRINHO
     const handleClick = async () => {
         setLoading(true);
-        await postProductInShoppingCart(productId)                              // FAZ A REQUISIÇÃO PARA ADICIONAR O PRODUTO NO CARRINHO
-            .then(() => toast.success("Produto adicionado com sucesso!"))       // SE A REQUISIÇÃO FOR BEM SUCEDIDA, MOSTRA UMA MENSAGEM DE SUCESSO
-            .catch((err) => toast.error(`${err.message}`))  // SE A REQUISIÇÃO NÃO FOR BEM SUCEDIDA, MOSTRA UMA MENSAGEM DE ERRO
+        await postProductInShoppingCart(productId, token)                              
+            .then(() => toast.success("Produto adicionado com sucesso!"))       
+            .catch((err) => toast.error(`${err.message}`))  
             
-        await getShoppingCartList(setLoaderCart, setShoppingCart, setCartError); // FAZ A REQUISIÇÃO PARA ATUALIZAR O CARRINHO NA TELA
+        await getShoppingCartList(setLoaderCart, setShoppingCart, setCartError, token); 
         setLoading(false);
     }
 
-    // CONDICIONAL PARA MOSTRAR O LOADER OU O BOTÃO
     return (
         loading
             ? <s.ButtonProductAdd disabled><Loader width={"20px"} height={"20px"}/></s.ButtonProductAdd>

@@ -10,6 +10,7 @@ export class ShoppingCartController {
         public removeProduct = async (req: Request, res: Response) => {
             try {
                 const input: IRemoveProduct = {
+                    token: req.headers.authorization as string,
                     productId: Number(req.params.productId)
                 }
                 await this.shoppingCartBusiness.removeProduct(input)
@@ -24,6 +25,7 @@ export class ShoppingCartController {
             try {
 
                 const input: IUpdateProductQuantity = {
+                    token: req.headers.authorization as string,
                     productId: Number(req.params.productId),
                     quantity: req.body.quantity
                 }
@@ -39,6 +41,7 @@ export class ShoppingCartController {
         public addProduct = async (req: Request, res: Response) => {
             try {
                 const input: IAddProductCart = {
+                    token: req.headers.authorization as string,
                     productId: Number(req.params.productId),
                 }
 
@@ -52,7 +55,9 @@ export class ShoppingCartController {
 
         public getCart = async (req: Request, res: Response) => {
             try {
-                const cart = await this.shoppingCartBusiness.getCart()
+                const token = req.headers.authorization as string
+
+                const cart = await this.shoppingCartBusiness.getCart(token)
 
                 res.status(200).send(cart)
             } catch (error) {
@@ -62,7 +67,9 @@ export class ShoppingCartController {
 
         public clearCart = async (req: Request, res: Response) => {
             try {
-                await this.shoppingCartBusiness.clearCart()
+                const token = req.headers.authorization as string
+
+                await this.shoppingCartBusiness.clearCart(token)
 
                 res.status(204).send()
             } catch (error) {

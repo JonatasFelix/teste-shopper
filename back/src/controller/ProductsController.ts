@@ -12,6 +12,7 @@ export class ProductsController {
     public getProducts = async (req: Request, res: Response) => {
         try {
             const input: IInputProducList = {
+                token: req.headers.authorization as string,
                 productName: req.query.search as string,
                 page : Number(req.query.page),
                 quantity: Number(req.query.quantity),
@@ -31,8 +32,9 @@ export class ProductsController {
     public getProductById = async (req: Request, res: Response) => {
         try {
             const productId = Number(req.params.productId)
+            const token = req.headers.authorization as string
 
-            const product = await this.productsBusiness.getProductById(productId)
+            const product = await this.productsBusiness.getProductById(productId, token)
 
             res.status(200).send(product)
         } catch (error) {

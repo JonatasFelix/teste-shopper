@@ -18,8 +18,8 @@ export class ProductsDatabaseMock {
 
     public selectCountProducts = async (search: string): Promise<any> => {
         switch (search) {
-            case "": return 0
             case "search": return 1
+            default: return 0
         }
     }
 

@@ -1,34 +1,41 @@
 export interface IUpdateProductQuantity {
+    token: string,
     productId: number,
     quantity: number
 }
 
 export interface IUpdateProductQuantityDTO {
-    id_product: number,
+    product_id: number,
     quantity: number
+    user_id: string
 }
 
 
 export interface IRemoveProduct {
+    token: string,
     productId: number
 }
 
 export interface IRemoveProductDTO {
-    id_product: number
+    product_id: number
+    user_id: string
 }
 
 export interface IAddProductCart {
+    token: string,
     productId: number
 }
 
 export interface IAddProductCartDTO {
-    id_product: number,
+    user_id: string,
+    product_id: number,
     quantity: number
 }
 
 
 export interface ISelectCartPrductDTO {
-    id_product: number
+    product_id: number
+    user_id: string
 }
 
 export interface IShoppingCartList {

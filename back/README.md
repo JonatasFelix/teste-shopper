@@ -8,13 +8,14 @@
 </section>
 
 ### DEPLOY
-* Heroku => https://api-shoplife.herokuapp.com/
+* Heroku => https://api-shopper-v2.herokuapp.com/
 * Documentação => https://documenter.getpostman.com/view/19882336/2s83zdw6mx
 
 ### MODELAGEM DO BANCO - MYSQL
 <section align="center" id="Modelagem">
-    <img align="center" src="https://user-images.githubusercontent.com/20983673/195371206-48ec961b-211e-4485-b0b7-f1d45ef9e621.png" alt="Modelagem" />
+    <img align="center" src="https://user-images.githubusercontent.com/20983673/196532866-af627cb4-ba9c-4a16-b557-ab4b4d513235.png" alt="Modelagem" />
 </section>
 
 ### TESTES 
-![image](https://user-images.githubusercontent.com/20983673/195372280-0e331e73-63f7-4dca-a4f4-7936231fc1ba.png)
+![image](https://user-images.githubusercontent.com/20983673/196699049-42c56171-078b-43ae-8be3-8137f5cf360f.png)
+

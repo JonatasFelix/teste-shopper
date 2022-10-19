@@ -1,38 +1,36 @@
 import GlobalContext from '../context/GlobalContext';
 import React, { useState, useEffect } from 'react';
-import { getShoppingCartList } from '../services/getShoppingCartList';
+import { getShoppingCartList } from '../services/ShoppingCart/getShoppingCartList';
+import { decodeToken } from "react-jwt";
 
 export default function GlobalProvider({ children }) {
-  
-  // ESTADO DO CARRINHO
+
   const [shoppingCart, setShoppingCart] = useState([]);
 
-  // ESTADO DO LOADER DO CARRINHO   
-  const [loaderCart, setLoaderCart] = useState(false);
+  const [loaderCart, setLoaderCart] = useState(true);
 
-  // ESTADO DO ERRO DO CARRINHO
   const [cartError, setCartError] = useState(false);
 
-  // ESTADO DO NOME DO USUÁRIO
-  const [name, setName] = useState(localStorage.getItem("name")? localStorage.getItem("name") : "");
+  const [token, setToken] = useState(localStorage.getItem("token") ? localStorage.getItem("token") : "");
+  const [tokenPayload, setTokenPayload] = useState(decodeToken(token));
 
-
-  // SETA O CARRINHO AO INICIAR A APLICAÇÃO
   useEffect(() => {
-    getShoppingCartList(setLoaderCart, setShoppingCart, setCartError);
-  }, []);
+    if (tokenPayload) {
+      getShoppingCartList(setLoaderCart, setShoppingCart, setCartError, token);
+    }
+  }, [token, tokenPayload]);
 
-  
-  // TODOS OS ESTADOS E FUNÇÕES QUE SERÃO DISPONÍVEIS PARA TODOS OS COMPONENTES
-  const states = { shoppingCart, cartError, loaderCart, name };
+  useEffect(() => {
+    setTokenPayload(decodeToken(token));
+  }, [token]);
 
-  // TODOS OS SETADORES DE ESTADOS QUE SERÃO DISPONÍVEIS PARA TODOS OS COMPONENTES
-  const setters = { setShoppingCart, setLoaderCart, setCartError, setName };
+  const states = { shoppingCart, cartError, loaderCart, token, tokenPayload };
 
-  // ENGLOBANDO TODOS OS ESTADOS E SETADORES DE ESTADOS EM UM OBJETO
+  const setters = { setShoppingCart, setLoaderCart, setCartError, setToken, setTokenPayload };
+
   const data = { states, setters };
 
   return (
     <GlobalContext.Provider value={data}>{children}</GlobalContext.Provider>
   );
-}
+};

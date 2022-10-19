@@ -16,14 +16,20 @@ export const Container = styled.main`
     }
 `
 
+export const LoaderContainer = styled.div`
+    margin: 0 auto;
+`
+
 export const Table = styled.table`
     border-collapse: collapse;
     width: 100%;
-    #mobile {
-        @media (max-width: 580px) {
+
+    @media (max-width: 530px) {
+        #mobile {
             display: none;
         }
     }
+
 `
 
 export const Th = styled.th`

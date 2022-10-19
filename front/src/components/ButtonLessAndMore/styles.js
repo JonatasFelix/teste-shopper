@@ -7,7 +7,7 @@ export const Container = styled.div`
     justify-content: center;
     position: relative;
     flex-wrap: nowrap;
-
+    
     @media (max-width: 460px) {
         flex-wrap: wrap;
     }

@@ -1,17 +1,44 @@
 import { ProductsDatabase } from "../database/ProductsDatabase"
+import { UsersDataBase } from "../database/UsersDataBase"
 import BadRequest from "../errors/BadRequest"
+import MissingParameters from "../errors/MissingParameters"
 import NotFound from "../errors/NotFound"
+import Unauthorized from "../errors/Unauthorized"
 import { IInputProducList, IOutputProductList, Order, Product, Sort } from "../models/Products"
+import { UserHasAddress } from "../models/Users"
+import { Authenticator } from "../services/AuthenticatorData"
 
 export class ProductsBusiness {
 
     constructor(
-        private productsDatabase: ProductsDatabase
+        private productsDatabase: ProductsDatabase,
+        private authenticator: Authenticator,
+        private usersDataBase: UsersDataBase,
     ) { }
 
     public getProducts = async (input: IInputProducList): Promise<[] | IOutputProductList> => {
 
-        let { productName, page, quantity, order, sort } = input
+        let { token, productName, page, quantity, order, sort } = input
+
+        if (!token) {
+            throw new BadRequest('Token inválido')
+        }
+
+        const tokenData = this.authenticator.getTokenPayload(token)
+
+        if (!tokenData) {
+            throw new Unauthorized('Token inválido')
+        }
+
+        const user: any = await this.usersDataBase.selectUserById(tokenData.id)
+
+        if (!user.length) {
+            throw new Unauthorized("Usuário não encontrado")
+        }
+
+        if (user[0].has_address === UserHasAddress.DONT_HAVE) {
+            throw new Unauthorized("Usuário não possui endereço cadastrado")
+        }
 
         if(isNaN(page) || !page) {
             page = 1
@@ -33,7 +60,6 @@ export class ProductsBusiness {
 
         const pages = Math.ceil(count / quantity)
 
-        // CASO SEJA PASSADO UM NÚMERO DE PÁGINA MAIOR QUE O TOTAL DE PÁGINAS
         if(page > pages) {
             page = pages
         }
@@ -64,10 +90,30 @@ export class ProductsBusiness {
 
     }
 
-    public getProductById = async(id: number): Promise<any> => {
+    public getProductById = async(id: number, token: string): Promise<any> => {
 
         if(isNaN(id)) {
             throw new BadRequest("id inválido")
+        }
+
+        if (!token) {
+            throw new MissingParameters('Token é obrigatório')
+        }
+
+        const tokenData = this.authenticator.getTokenPayload(token)
+
+        if (!tokenData) {
+            throw new Unauthorized('Token inválido')
+        }
+
+        const user: any = await this.usersDataBase.selectUserById(tokenData.id)
+
+        if (!user.length) {
+            throw new Unauthorized("Usuário não encontrado")
+        }
+
+        if (user[0].has_address === UserHasAddress.DONT_HAVE) {
+            throw new Unauthorized("Usuário não possui endereço cadastrado")
         }
 
         const product = await this.productsDatabase.selectProductById({id})

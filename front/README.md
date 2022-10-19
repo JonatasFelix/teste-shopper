@@ -4,17 +4,18 @@
 </section>
 
 ### DEPLOY
-* SURGE => https://shop-life.surge.sh/
+* SURGE => https://shop-life-v2.surge.sh/
 * FIGMA => https://www.figma.com/file/JijKkrD1jtLCDXDvCOoXEk/Untitled?node-id=0%3A1
 
 ### DIAGRAMA
 <section align="center" id="diagrama">
-    <img align="center" src="https://user-images.githubusercontent.com/20983673/195366679-3d4a3257-8392-4315-90a6-0e5e8df0332d.png" alt="diagrama" />
+    <img align="center" src="https://user-images.githubusercontent.com/20983673/196532651-4be23057-d30c-4ae0-bc17-4ad66d107713.png" alt="diagrama" />
 </section>
 
 ### 🖥️ Desktop
-![TELAS-DESKTOP](https://user-images.githubusercontent.com/20983673/195344535-e7d568fe-61bc-4a8b-9ed9-c953c8d3c5ef.png)
+![TEMPLETE DESKTOP](https://user-images.githubusercontent.com/20983673/196765209-afc181cf-299f-4a7d-9b5d-698133c835da.png)
+
 
 ### 📱 Mobile
+![MOBILE TEMPLETE](https://user-images.githubusercontent.com/20983673/196765122-e94360b7-dfff-4d17-9f07-a28c97151fc7.png)
 
-![TELAS-MOBILE](https://user-images.githubusercontent.com/20983673/195370223-6daa5695-95bd-47e4-a516-fec5e3f86251.png)

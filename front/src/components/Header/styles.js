@@ -4,7 +4,7 @@ export const Container = styled.header`
     border-top: 5px solid #DA5726;
     background-color: #FFFFFF;
     box-shadow: 0px 5px 12px 0px rgb(0 0 0 / 30%);
-`
+`;
 
 export const Content = styled.div`
     margin: 0 auto;
@@ -13,12 +13,12 @@ export const Content = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 5px 10px;
-`
+`;
 
 export const Logo = styled.img`
     width: 100px;
     cursor: pointer;
-`
+`;
 
 export const SerchBoxDesktop = styled.div`
     width: 50%;
@@ -26,7 +26,7 @@ export const SerchBoxDesktop = styled.div`
     @media (max-width: 530px) {
         display: none;
     }
-`
+`;
 
 export const SerchBoxMobile = styled.div`
     display: none;
@@ -35,7 +35,7 @@ export const SerchBoxMobile = styled.div`
         margin: 20px auto 0 auto;
         padding: 0px 10px;
     }
-`
+`;
 
 export const CartIcon = styled.button`
     background-color: transparent;
@@ -52,7 +52,7 @@ export const CartIcon = styled.button`
     &:hover {
         background-color: #F2F2F2;
     }
-`
+`;
 
 
 export const CartIconCount = styled.span`
@@ -64,4 +64,18 @@ export const CartIconCount = styled.span`
     padding: 3px 8px;
     top: 7px;
     right: 28px;
-`
+`;
+
+export const LogoutButton = styled.button`
+    background-color: transparent;
+    border: 0 none;
+    color: #DA5726;
+    font-weight: bold;
+    cursor: pointer;
+`;
+
+export const Menu = styled.div`
+    display: flex;
+    gap: 20px;
+    align-items: center;
+`;
