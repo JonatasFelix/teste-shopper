@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://api-shopper-v2.herokuapp.com'; // URL DA API
+export const BASE_URL = 'http://localhost:3000'; // URL DA API
