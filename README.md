@@ -14,7 +14,7 @@ https://shop-life-v2.surge.sh/
 
 *  Back-End =>
 https://api-shopper-v2.herokuapp.com/
-* Documentação => https://documenter.getpostman.com/view/19882336/2s83zdw6mx
+* Documentação => https://documenter.getpostman.com/view/19882336/2s847A1HZg
 
 
 ---
