@@ -13,7 +13,7 @@
 
 ### MODELAGEM DO BANCO - MYSQL
 <section align="center" id="Modelagem">
-    <img align="center" src="https://user-images.githubusercontent.com/20983673/196532866-af627cb4-ba9c-4a16-b557-ab4b4d513235.png" alt="Modelagem" />
+    <img align="center" src="https://user-images.githubusercontent.com/20983673/198753667-9c367247-db34-4a29-b946-b45ddf5a1279.png" alt="Modelagem" />
 </section>
 
 ### TESTES 
