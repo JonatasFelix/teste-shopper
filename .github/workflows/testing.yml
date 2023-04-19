@@ -1,0 +1,37 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - release
+      - develop
+      - master
+  pull_request:
+    branches:
+      - release
+      - develop
+      - master
+
+env:
+  ENV_VARS_TESTE: ${{ vars.ENV_VARS_TESTE }}
+  ENV_SECRETS_TESTE: ${{ secrets.ENV_SECRETS_TESTE }}
+  TZ: America/Sao_Paulo
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+
+      - name: Show all environment variables
+        run: 
+            echo "ENV_VARS_TESTE: ${{ vars.ENV_VARS_TESTE }}"
+            echo "ENV_SECRETS_TESTE: ${{ secrets.ENV_SECRETS_TESTE }}"
+            echo "ENV_VARS_TESTE: $ENV_VARS_TESTE"
+            echo "ENV_SECRETS_TESTE: $ENV_SECRETS_TESTE"
+
