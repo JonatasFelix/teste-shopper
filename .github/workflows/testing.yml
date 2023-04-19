@@ -12,10 +12,6 @@ on:
       - develop
       - master
 
-env:
-  ENV_VARS_TESTE: ${{ vars.ENV_VARS_TESTE }}
-  ENV_SECRETS_TESTE: ${{ secrets.ENV_SECRETS_TESTE }}
-  TZ: America/Sao_Paulo
 
 
 jobs:
