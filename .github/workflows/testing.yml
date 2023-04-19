@@ -23,8 +23,8 @@ jobs:
     steps:
       - name: Show all environment variables
         run: |
-            echo "ENV_VARS_TESTE: ${{ env.ENV_VARS_TESTE }}"
-            echo "ENV_SECRETS_TESTE: ${{ env.ENV_SECRETS_TESTE }}"
+            echo "ENV_VARS_TESTE: ${{ vars.ENV_VARS_TESTE }}"
+            echo "ENV_SECRETS_TESTE: ${{ secrets.ENV_SECRETS_TESTE }}"
   
   using-environments:
     runs-on: ubuntu-latest
@@ -33,5 +33,5 @@ jobs:
     steps: 
       - name: Show all teste environment
         run: |
-          echo "ENV_VARS_TESTE: ${{ env.ENV_VARS_TESTE }}"
-          echo "ENV_SECRETS_TESTE: ${{ env.ENV_SECRETS_TESTE }}"
+          echo "ENV_VARS_TESTE: ${{ vars.ENV_VARS_TESTE }}"
+          echo "ENV_SECRETS_TESTE: ${{ secrets.ENV_SECRETS_TESTE }}"
