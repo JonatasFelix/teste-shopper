@@ -8,7 +8,7 @@ body:
   - type: input
     id: start_date
     attributes:
-      label: "Start Date"
+      label: "Start Datee"
       description: Start of development
       placeholder: "month/day/year"
     validations:
